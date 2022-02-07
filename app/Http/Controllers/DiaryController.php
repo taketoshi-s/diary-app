@@ -225,7 +225,7 @@ class DiaryController extends Controller
         
         return view('Diary.history');
     }
-    
+    //以下使わない
     public function sample(Request $request)
     {   
         $avg_Weight_Record=[];
