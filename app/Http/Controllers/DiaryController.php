@@ -14,7 +14,7 @@ use App\Models\WeightRecord;
 use App\Models\FoodRecord;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-//lllllllll
+
 class DiaryController extends Controller
 {
     private $Characteritems = ["nickname", "age", "weight","height","icon"];
