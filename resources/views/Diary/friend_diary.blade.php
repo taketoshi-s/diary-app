@@ -44,7 +44,7 @@
                                                     </td>
                                                     <!--日記を見る-->
                                                     <td>
-                                                        <form action="{{ action('DiaryRecordController@frend_diary_show', $diary->id) }}" method="get">
+                                                        <form action="{{ action('DiaryRecordController@friend_diary_show', $diary->id) }}" method="get">
                                                         @csrf
                                                             <button type="submit" class="btn btn-primary">見る</button>
                                                         </form>

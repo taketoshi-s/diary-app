@@ -32,18 +32,31 @@
                             </div>
                         </div>
                     </form>
-                    @if(isset($friend_user))
+                    @if(isset($search_user))
+                        @if(empty($friend) && $search_user->id !== $user->id)
+                            <form method = "post" action="{{route('Diary.friend_add')}}">
+                            @csrf
+                                <p>{{$search_user->nickname}}</p>
+                                <img src="{{asset($search_user->icon)}}" width ='65' height = '65'>
+                                <input type="hidden" name = "input" value ="{{$search_user->name}}">
+                                <button type="submit" class="btn btn-primary" >  
+                                            {{ __('追加する') }}
+                                </button>
+                            </form>
+                        @else
                         
-                        <form method = "post" action="{{route('Diary.friend_add')}}">
-                        @csrf
-                        <p>{{$friend_user->nickname}}</p>
-                            <img src="{{asset($friend_user->icon)}}" width ='65' height = '65'>
-                            <input type="hidden" name = "input" value ="{{$friend_user->name}}">
-                            <button type="submit" class="btn btn-primary" >  
-                                        {{ __('追加する') }}
-                            </button>
-                        </form>
-                        
+                            @if($search_user->id == $user->id)
+                                <p>{{$search_user->nickname}}</p>
+                                <img src="{{asset($search_user->icon)}}" width ='65' height = '65'>
+                                <input type="hidden" name = "input" value ="{{$search_user->name}}">
+                                <p>自分自身です</p>
+                            @elseif($search_user->id == $friend->friend_id)
+                                <p>{{$search_user->nickname}}</p>
+                                <img src="{{asset($search_user->icon)}}" width ='65' height = '65'>
+                                <input type="hidden" name = "input" value ="{{$search_user->name}}">
+                                <p>既に友達に追加されています</p>
+                            @endif
+                        @endif
                     @endif
                 </div>
             </div>
