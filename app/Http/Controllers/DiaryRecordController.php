@@ -17,6 +17,7 @@ use App\Models\Frends;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Http\Requests\DiaryRequest;
+use App\Http\Requests\friendRequest;
 
 class DiaryRecordController extends Controller
 {
@@ -214,7 +215,7 @@ class DiaryRecordController extends Controller
         return redirect()->action('DiaryRecordController@diary_history');
     }
 
-    public function frend_diary(Request $request)
+    public function friend_diary(Request $request)
     {
         //ログインしているユーザー
         $user = Auth::user();
@@ -227,10 +228,10 @@ class DiaryRecordController extends Controller
         //日記の作者を取得
         $authors = DB::table('users')->get();
         
-        return view('Diary.frend_diary',compact('diaries','friends','authors'));
+        return view('Diary.friend_diary',compact('diaries','friends','authors'));
     }
 
-    public function frend_diary_show ($id)
+    public function friend_diary_show ($id)
     {
        
         //選択した日記を取得
@@ -266,7 +267,7 @@ class DiaryRecordController extends Controller
             $result_weight = '＜ー.ーー＞';
         }
             
-        return view('Diary.frend_diary_show',compact('diary','that_day_weight','result_weight','last_day_weight','exercises','comments','comment_users','user'));
+        return view('Diary.friend_diary_show',compact('diary','that_day_weight','result_weight','last_day_weight','exercises','comments','comment_users','user'));
     }
 
     public function diary_comment_save (Request $request,$id)
@@ -281,7 +282,7 @@ class DiaryRecordController extends Controller
         $comment->body = $request->body;
         $comment->save();
 
-        return redirect()->action('DiaryRecordController@frend_diary');
+        return redirect()->action('DiaryRecordController@friend_diary');
     }
 
     public function diary_comment_edit($id)
@@ -303,7 +304,7 @@ class DiaryRecordController extends Controller
         $comment->body = $request->body;
         $comment->save();
 
-        return redirect()->action('DiaryRecordController@frend_diary');
+        return redirect()->action('DiaryRecordController@friend_diary');
     }
 
     public function diary_comment_destroy($id) {
@@ -313,7 +314,7 @@ class DiaryRecordController extends Controller
         
         $comment->delete();
 
-        return redirect()->action('DiaryRecordController@frend_diary');
+        return redirect()->action('DiaryRecordController@friend_diary');
     }
 
     public function friend_find(Request $request) {
@@ -328,23 +329,32 @@ class DiaryRecordController extends Controller
         $input = $request->input;
          //ログインしているユーザー
         $user = Auth::user();
-        $friend_user = User::where('name',$input)->first();
-        
-        
-        return view('Diary.friend_find',compact('input','friend_user'));
+        $search_user = User::where('name',$input)->first();
+        $friend = Frends::where('user_id','=',Auth::user()->id)->where('friend_id','=',$search_user->id )->first();
+
+        return view('Diary.friend_find',compact('input','search_user','friend','user'));
     }
 
     public function friend_add(Request $request) {
         
+        $user = Auth::user();
+        $search_user = User::where('name',$request->input)->first();
+        $friend_user = Frends::where('user_id','=',$user->id)->where('friend_id','=',$search_user->id)->first();
         
-        $friend_user = User::where('name',$request->input)->first();
-        
-        $friend = new frends;
-        $friend->user_id =  $request->user()->id;
-        $friend->friend_id =  $friend_user->id;
-        $friend->save();
-    
-        return redirect()->action('DiaryRecordController@frend_diary');
+        if(empty($friend_user)){
+            
+            $friend = new frends;
+            $friend->user_id =  $request->user()->id;
+            $friend->friend_id =  $search_user->id;
+            $friend->save();
+        }else{
+
+            $friend = Frends::find($friend_user->id);
+            $friend->user_id =  $request->user()->id;
+            $friend->friend_id =  $search_user->id;
+            $friend->save();
+        }
+        return redirect()->action('DiaryRecordController@friend_diary');
     }
 
     public function friend_list(Request $request) {
