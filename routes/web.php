@@ -54,9 +54,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('Diary/history_show', 'DiaryController@history_show')->name("Diary.history_show");
     
     //友達の日記を閲覧、コメント記録
-    //友達の日記を閲覧、コメント記録
-    Route::get('Diary/frend_diary', 'DiaryRecordController@frend_diary')->name("Diary.frend_diary");
-    Route::get('Diary/{id}/frend_diary_show', 'DiaryRecordController@frend_diary_show')->name("Diary.frend_diary_show");
+    Route::get('Diary/friend_diary', 'DiaryRecordController@friend_diary')->name("Diary.friend_diary");
+    Route::get('Diary/{id}/friend_diary_show', 'DiaryRecordController@friend_diary_show')->name("Diary.friend_diary_show");
     Route::post('Diary/diary_comment_save/{id}', 'DiaryRecordController@diary_comment_save')->name("Diary.diary_comment_save");
     Route::get('Diary/{id}/diary_comment_edit', 'DiaryRecordController@diary_comment_edit')->name("Diary.diary_comment_edit");
     Route::post('Diary/diary_comment_update/{id}', 'DiaryRecordController@diary_comment_update')->name("Diary.diary_comment_update");

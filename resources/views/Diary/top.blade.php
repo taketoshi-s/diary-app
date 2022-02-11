@@ -36,7 +36,7 @@ document.getElementById('logout-form').submit();">
 <button type="submit" class="btn btn-primary">日記を書く</button>
 </form>
 
-<form action="{{route('Diary.frend_diary')}}" method="get">
+<form action="{{route('Diary.friend_diary')}}" method="get">
 @csrf
 <button type="submit" class="btn btn-primary">友達の日記</button>
 </form>
