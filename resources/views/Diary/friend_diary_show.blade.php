@@ -198,6 +198,7 @@
                                 <button type="submit" class="btn btn-primary">編集</button>
                             </form>
                             <span>・</span>
+                            
                             <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
                             @csrf
                                 <button type="submit" class="btn btn-primary">削除</button>
