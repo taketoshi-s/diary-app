@@ -17,7 +17,7 @@ use App\Models\Frends;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Http\Requests\DiaryRequest;
-use App\Http\Requests\friendRequest;
+use App\Http\Requests\CommentRequest;
 
 class DiaryRecordController extends Controller
 {
@@ -210,6 +210,8 @@ class DiaryRecordController extends Controller
         $diary->condition = $request->condition;
         $diary->fullness = $request->fullness;
         $diary->effort = $request->effort;
+        $diary->body = $request->body;
+
         $diary->save();
 
         return redirect()->action('DiaryRecordController@diary_history');
@@ -270,7 +272,7 @@ class DiaryRecordController extends Controller
         return view('Diary.friend_diary_show',compact('diary','that_day_weight','result_weight','last_day_weight','exercises','comments','comment_users','user'));
     }
 
-    public function diary_comment_save (Request $request,$id)
+    public function diary_comment_save (CommentRequest $request,$id)
     {
         //選択した日記を取得
         $diary = Diary::find($id);
@@ -294,7 +296,7 @@ class DiaryRecordController extends Controller
         return view('Diary.diary_comment_edit')->with('comment',$comment);
     }
     
-    public function diary_comment_update(Request $request,$id)
+    public function diary_comment_update(CommentRequest $request,$id)
     {
         //選択したコメントを取得
         $comment = Comments::find($id);
