@@ -88,7 +88,7 @@ class WeightRecordController extends Controller
         $Month_msg = "";
         $two_week_ago_record=[];
         $last_week_end_weight="";
-        
+        $last_Month_record = "";
         //登録時のid・体重
         $user_id = Auth::user()->id;
         $oldest_weight = Auth::user()->weight;
@@ -206,7 +206,7 @@ class WeightRecordController extends Controller
         }
       
         
-    return view('Diary.weightresult',compact('today_record','today','msg','result_weight','last_time_day','week_msg','one_week_ago','two_week_ago_record','oldest_weight','last_week_end_weight','Month_sub_weight','Week_sub_weight'));
+    return view('Diary.weightresult',compact('today_record','today','msg','result_weight','last_time_day','week_msg','one_week_ago','two_week_ago_record','oldest_weight','last_week_end_weight','Month_sub_weight','Week_sub_weight','last_record','last_Month_record'));
    
     }
 
