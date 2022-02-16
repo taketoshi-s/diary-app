@@ -10,22 +10,20 @@
                 <div class="card-body">
                     <form action="{{route('Diary.diary_record')}}" method="get">
                         @csrf
-                        <button type="submit" class="btn btn-primary">自分の日記を書く</button>
+                        <button type="submit" class="btn btn-outline-primary">自分の日記を書く</button>
                     </form>
                     
-                    <!--友達一覧　（仮）-->
-                    @if(!empty($friends))
-                        @foreach ($friends as $friend)
-                            @foreach ($authors as $author)
-                                @if($author->id == $friend->friend_id)
-                                    <p>{{$author->nickname}}</p>
-                                @endif
-                            @endforeach
-                        @endforeach
-                    @endif
-
-                     <!--友達の日記）-->
-                    <table class="table table-striped" style="max-width:1000px; margin-top:20px;">
+                    <!--友達の日記）-->
+                    
+                    <table class="table table-bordered table-striped"　style= "max-width:800px; margin-top:20px;">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">日付</th>
+                                <th scope="col" class="text-center">名前</th>
+                                <th scope="col" class="text-center">閲覧</th>
+                            </tr>
+                        </thead>
+                        
                         <tbody>
                             @if(!empty($friends))
                                 @foreach ($diaries as $diary)
@@ -35,18 +33,18 @@
                                             @if($diary->user_id == $author->id)
                                                 <tr>
                                                     <!--日記の日付-->
-                                                    <td>{{$diary->created_at->format('m/d')}}</td>
+                                                    <td class="text-center">{{$diary->created_at->format('m/d')}}</td>
                                                     <!--日記の作者-->
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{$author->nickname}}
                                                         <br>
                                                         <img src="{{asset($author->icon)}}" width="50" height="50">
                                                     </td>
                                                     <!--日記を見る-->
-                                                    <td>
+                                                    <td class="text-center">
                                                         <form action="{{ action('DiaryRecordController@friend_diary_show', $diary->id) }}" method="get">
                                                         @csrf
-                                                            <button type="submit" class="btn btn-primary">見る</button>
+                                                            <button type="submit" class="btn btn-outline-primary">見る</button>
                                                         </form>
                                                     </td>   
                                                 </tr>
@@ -57,21 +55,22 @@
                                 @endforeach
                             @endif
                     </table>
-                    
-                    <form action="{{route('Diary.top')}}" method="get">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">TOPへ</button>
-                    </form>
-
-                    <form action="{{route('Diary.friend_find')}}" method="get">
-                    @csrf
-                        <button type="submit" class="btn btn-primary">友達追加</button>
-                    </form>  
-
-                    <form action="{{route('Diary.friend_list')}}" method="get">
-                    @csrf
-                        <button type="submit" class="btn btn-primary">友達一覧</button>
-                    </form>  
+                    <div class="btn-toolbar">
+                                <form action="{{route('Diary.friend_find')}}" method="get">
+                                @csrf
+                                    <button type="submit" class="btn btn-outline-primary my-2">友達追加</button>
+                                </form>
+                            </div>
+                            <form action="{{route('Diary.friend_list')}}" method="get">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-primary my-2">友達一覧</button>
+                            </form>
+                            
+                            <form action="{{route('Diary.top')}}" method="get">
+                            @csrf
+                                <button type="submit" class="btn btn-light my-2">TOP</button>
+                            </form>
+                    </div>
                 </div>
             </div>
         </div>

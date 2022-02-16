@@ -23,18 +23,70 @@
         display: flex;
         justify-content: center;
     }
+    .btn-group{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+    .form-group.weight{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .today-consumed-cal{
+        text-align: center;
+        margin: 0 auto;
+    }
+    .table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .exercises-img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form-group.food{
+        text-align: center;
+    }
+    
     .icon-create{
         text-align: center;
         margin: 0 auto;
         width: 80%;
-  
     }
     .select-icon{
         display: flex;
         justify-content: center;
     }
 
-    
+    .comment-group{
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+    }
+
+    .comment-body{
+        margin: 0 50px;
+        width: 350px;
+    }
+    .form-comment{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+    }
+    .diary-body{
+        border: 0.5px solid rgba(0, 0, 0, .4);
+        margin-bottom: 30px;
+    }
+
+Resources
 
     </style>
 </head>
