@@ -8,67 +8,41 @@
                 <div class="card-header">{{ __('日記') }}</div>
 
                 <div class="card-body">
-                        
-                    <div class="form-group row">
-                        <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('今日の体重') }}</label>
+                    <div class="today_weight">
+                            <p class="text-center font-weight-bold h4">この日の体重</p>
                             
-                        <div class="col-md-6">
-                            <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
                             @if(!empty($that_day_weight))
-                                {{ $that_day_weight->weight }}
+                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
+                                    <p class="text-center font-weight-bold h2">{{ $that_day_weight->weight }}</p>
                             @else
-                                <p>記録なし</p>
+                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
+                                <p class="text-center font-weight-bold h2">記録なし</p>
                             @endif
-                        </div>
-                     </div>
-
-                    <div class="form-group row">
-                        <!--前回との体重差-->
-                        <!--①同じ日付の体重があり && 前回の体重があれば　true　なければ　else)-->
-                        @if($result_weight !== '＜ー.ーー＞' )
-                            <!--②前回の体重が日記の日付の前日なら　true　でなければ　else)-->
-                            @if($last_day_weight->created_at->format('y-m-d') == $that_day_weight->created_at->subDay()->format('y-m-d'))
-                                <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('前日との差') }}</label>
-                                
-                                <div class="col-md-6">
-                                    <!--前回よりも体重が増えていれば + をつける)-->
-                                    @if($result_weight > 0.01)
-                                        + {{ $result_weight }}
-                                    @else
-                                        {{ $result_weight }}
-                                    @endif
-                                </div>
-                            <!--②　else)-->
-                            @else
-                                <label for="nickname" class="col-md-4 col-form-label text-md-right">{{$last_day_weight->created_at->format('m/d')}}との差</label>
-                                <div class="col-md-6">
-                                    <!--前回よりも体重が増えていれば + をつける)-->
-                                    @if($result_weight > 0.01)
-                                        + {{ $result_weight }}
-                                    @else
-                                        {{ $result_weight }}
-                                    @endif
-                                </div>
-                            @endif
-                        
-                        <!--① else)-->
-                        @else
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('前回との差') }}</label>
-                            <div class="col-md-6">
-                                {{ $result_weight }}
-                            </div>
-                        @endif       
                     </div>
 
-                    <!--前回との体重差-->
-                    <div class="form-group row">
-                        <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('運動') }}</label>
+                    <div class="today_weight">
+                            <p class="text-center font-weight-bold h6">前回との差</p>
+                            @if($result_weight !== '＜ー.ーー＞' )
+                            <!--前回よりも体重が増えていれば + をつける)-->
+                            @if($result_weight > 0.01)
+                                <p class="text-center font-weight-bold h4">+ {{ $result_weight }}</p>
+                            @else
+                                <p class="text-center font-weight-bold h4">{{ $result_weight }}</p>
+                            @endif
+                            @else
+                            <p class="text-center font-weight-bold h4">{{ $result_weight }}</p>
+                            @endif       
+                    </div>
 
-                        <div class="col-md-6">
+                    <div class="today_weight">
+                            <p class="text-center font-weight-bold h6">運動</p>
+                    </div>
+
+                    <div class = "exercises-img">
                             @if(count($exercises) <=1)
-                               
+                                
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                               
+                                    
                             @elseif(count($exercises) <=2)
                                 
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
@@ -76,7 +50,7 @@
                                 
                             @elseif(count($exercises) <=3)
                                 
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    <img class="text-center"　src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
                                     <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
                                     <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
                                 
@@ -89,100 +63,69 @@
                                 
                             @endif
 
-                        </div>
                     </div>
                     
-                    <!--調子-->
-                    <div class="form-group row">
-                        <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('調子') }}</label>
-                            
-                        @if($diary->condition ==1)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->condition == 2)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->condition == 3)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->condition == 4)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->condition == 5)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
-                        </div>
-                        @endif
-                    </div>
+                    <table class="table table-bordered "　style= "max-width:400px; margin-top:20px;">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">調子</th>
+                                <th scope="col" class="text-center">充実度</th>
+                                <th scope="col" class="text-center">努力</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    @if($diary->condition ==1)
+                                        <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
+                                    @elseif($diary->condition == 2)
+                                        <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
+                                    @elseif($diary->condition == 3)
+                                        <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
+                                    @elseif($diary->condition == 4)
+                                        <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
+                                    @elseif($diary->condition == 5)
+                                        <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($diary->fullness == 1)
+                                        <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
+                                    @elseif($diary->fullness == 2)
+                                        <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
+                                    @elseif($diary->fullness == 3)
+                                        <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
+                                    @elseif($diary->fullness == 4)
+                                        <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
+                                    @elseif($diary->fullness == 5)
+                                        <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($diary->effort == 1)
+                                        <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
+                                    @elseif($diary->effort == 2)
+                                        <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
+                                    @elseif($diary->effort == 3)
+                                        <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
+                                    @elseif($diary->effort == 4)
+                                        <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
+                                    @elseif($diary->effort == 5)
+                                        <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                    <!--充実-->
-                    <div class="form-group row">
-                        <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('充実') }}</label>
-                                
-                        @if($diary->fullness == 1)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->fullness == 2)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->fullness == 3)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->fullness == 4)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->fullness == 5)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
-                        </div>
-                        @endif
+                    <div class="today_weight">
+                            <p class="text-center font-weight-bold h6">今日の出来事</p>
+                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
+                            <p class="text-center font-weight-bold">{{$diary->body}}</p>
                     </div>
-
-                     <!--努力-->
-                    <div class="form-group row">
-                        <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('努力') }}</label>
-                                
-                        @if($diary->effort == 1)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zetuhutyou.png') }}" alt="絶不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->effort == 2)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/futyou.png') }}" alt="不調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->effort == 3)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/hutu.png') }}" alt="普通" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->effort == 4)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/koutyou.png') }}" alt="好調" width = '50' height = '50'>
-                        </div>
-                        @elseif($diary->effort == 5)
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '50' height = '50'>
-                        </div>
-                        @endif
-                    </div>
-
-                    <!--日記の内容-->
-                    <div class="form-group row">
-                        <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('日記') }}</label>
-                            
-                        <div class="col-md-6">
-                            {{$diary->body}}
-                        </div>
-                    
                     <!--日記のコメント-->
-                    </div>
+
                     @if($comments != [])
                         @foreach($comments as $comment)
                         <div class="form-group row">
@@ -199,7 +142,7 @@
                             @csrf
                                 <button type="submit" class="btn btn-primary">編集</button>
                             </form>
-                            <span>・</span>
+                            
                             <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
                             @csrf
                                 <button type="submit" class="btn btn-primary">削除</button>
@@ -207,19 +150,20 @@
                             @endif
                         </div>  
                         @endforeach
+
                     @else
                         <div class="form-group row">
                             <label for="comments" class="col-md-4 col-form-label text-md-right">{{ __('コメント') }}</label>
                                 <p>コメントはありません</p>
                         </div>
                     @endif
-                   
-                    
+
                     <form action="{{route('Diary.top')}}" method="get">
                     @csrf
                         <button type="submit" class="btn btn-primary">TOPへ</button>
                     </form>  
                 </div>
+
             </div>
         </div>
     </div>

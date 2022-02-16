@@ -14,8 +14,6 @@
                     </form>
 
                     <table class="table table-striped" style="max-width:1000px; margin-top:20px;">
-                    
-                    
                         <tbody>
                             @foreach ($diaries as $diary)
                             <tr>
@@ -125,6 +123,7 @@
                         <button type="submit" class="btn btn-primary">TOPへ</button>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

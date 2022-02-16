@@ -12,13 +12,13 @@
                     @csrf                  
                         <!--運動-->
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('今日の運動') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('今日の運動') }}</label>
                             
                             <div class="col-md-6">
                             @if(count($exercises) <=1)
-                               
+                            
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                               
+                            
                             @elseif(count($exercises) <=2)
                                 
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
@@ -39,6 +39,7 @@
                                 
                             @endif
                             </div>
+                            
                         </div>
                         
                         <!--調子-->

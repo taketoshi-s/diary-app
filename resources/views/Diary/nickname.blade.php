@@ -8,17 +8,17 @@
                 <div class="card-header">{{ __('ニックネーム登録') }}</div>
 
                 <div class="card-body">
-                    <form method = "post" action = "{{route('Diary.characterstore')}}">                        
+                    <form method = "post" action = "{{route('Diary.character_store')}}">                        
                     @csrf
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                 
 
                         <div class="form-group row">
@@ -60,8 +60,10 @@
                                 </button>
                             </div>
                         </div>
+
                     </form>
                 </div>
+                
             </div>
         </div>
     </div>
