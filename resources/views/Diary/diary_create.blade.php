@@ -97,8 +97,7 @@
                                 <label for="contactChoice1"> <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '40' height = '40'></label>
                             </div>
                         </div>
-
-                        <!--日記-->
+                        
                         <div class="form-group row">
                             <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('日記') }}</label>
 
@@ -106,21 +105,18 @@
                                 <textarea name="body" maxlength="255" cols="30" rows="10" ></textarea>
                             </div>
                         </div>
-                           
+                        
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('確認') }}
                                 </button>
-                            </div>
-                                
+                            </div> 
                         </div>
                         
                     </form>
-                
                 </div>
                 
-                </div>
             </div>
         </div>
     </div>

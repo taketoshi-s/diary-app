@@ -10,15 +10,15 @@
                 <div class="card-body">
                     <form method = "post" action = "{{route('Diary.friend_search')}}">                        
                     @csrf
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                 
 
                         <div class="form-group row">
@@ -32,6 +32,7 @@
                             </div>
                         </div>
                     </form>
+
                     @if(isset($search_user))
                         @if(empty($friend) && $search_user->id !== $user->id)
                             <form method = "post" action="{{route('Diary.friend_add')}}">
@@ -44,7 +45,6 @@
                                 </button>
                             </form>
                         @else
-                        
                             @if($search_user->id == $user->id)
                                 <p>{{$search_user->nickname}}</p>
                                 <img src="{{asset($search_user->icon)}}" width ='65' height = '65'>
@@ -59,6 +59,7 @@
                         @endif
                     @endif
                 </div>
+                
             </div>
         </div>
     </div>

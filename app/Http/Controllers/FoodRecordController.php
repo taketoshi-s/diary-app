@@ -28,16 +28,17 @@ class FoodRecordController extends Controller
         $today=Carbon::today();
         
         //記録当日のデータを取得
-        $today_foodrecord = DB::table('food_records')
-            ->whereDate('created_at','=' ,$today)//当日のデータ
-            ->where('user_id','=',$user) //ユーザーID
+        $today_food_record = DB::table('food_records')
+            ->whereDate('created_at', '=', $today)//当日のデータ
+            ->where('user_id', '=', $user) //ユーザーID
             ->get();
         
         //今日に体重記録をしていれば上書き
-        if($today_foodrecord != '[]'){
+        if($today_food_record != '[]'){
+            
             DB::table('food_records')
-            ->whereDate('created_at','=' ,$today)//当日のデータ
-            ->where('user_id','=',$user) //ユーザーID
+            ->whereDate('created_at', '=', $today)//当日のデータ
+            ->where('user_id', '=', $user) //ユーザーID
             ->update([
                 'morning' => $request->morning,
                 'lunch' => $request->lunch,
@@ -45,25 +46,21 @@ class FoodRecordController extends Controller
                 'otherfood' => $request->otherfood
             ]);
 
-            \Log::debug('emptyじゃない');
         }else{
-           
-            $foodrecord = new FoodRecord;
-            $foodrecord->morning = $request->morning;
-            $foodrecord->lunch = $request->lunch;
-            $foodrecord->dinner = $request->dinner;
-            $foodrecord->otherfood = $request->otherfood;
-            $foodrecord->user_id =$request->user()->id;
-            \Log::debug('empty');
-            $foodrecord->save();
+
+            $food_record = new FoodRecord;
+            $food_record->morning = $request->morning;
+            $food_record->lunch = $request->lunch;
+            $food_record->dinner = $request->dinner;
+            $food_record->otherfood = $request->otherfood;
+            $food_record->user_id =$request->user()->id;
+            $food_record->save();
         }
         
         if($request->has("back")){
+            
             return redirect('Diary/top');
         }
-        
-        //\Log::debug($today_foodrecord);
-       
         
         return redirect()->action('FoodRecordController@food_record');
     }
@@ -77,14 +74,15 @@ class FoodRecordController extends Controller
         $today=Carbon::today();
         
         //記録当日のデータを取得
-        $today_foodrecord = DB::table('food_records')
-            ->whereDate('created_at','=' ,$today)//当日のデータ
-            ->where('user_id','=',$user) //ユーザーID
+        $today_food_record = DB::table('food_records')
+            ->whereDate('created_at', '=', $today)//当日のデータ
+            ->where('user_id', '=', $user) //ユーザーID
             ->get();
         
-        if($today_foodrecord != '[]'){
+        //当日の食事記録があれば総カロリーを計算する
+        if($today_food_record != '[]'){
             
-            $today_eat = $today_foodrecord[0];
+            $today_eat = $today_food_record[0];
             $today_consumed_cal = $today_eat->morning+$today_eat->lunch+$today_eat->dinner+$today_eat->otherfood;
         
         }else{
@@ -93,13 +91,15 @@ class FoodRecordController extends Controller
             $today_consumed_cal = 0;
         }
         
-        $lastdata = DB::table('weight_records')
-        ->where('user_id','=',$user)
+        //最後に記録された体重データを取得
+        $last_weight_data = DB::table('weight_records')
+        ->where('user_id', '=', $user)
         ->orderBy('id', 'desc')
         ->first();
     
-        if(!empty($lastdata)){
-        $bmr = 13.397 * $lastdata->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
+        //最後に記録された体重データがあればそのデータを、なければ登録時の体重データを取得し基礎代謝を計算
+        if(!empty($last_weight_data)){
+        $bmr = 13.397 * $last_weight_data->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
         }else{
         $bmr = 13.397 * Auth::user()->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
         }
@@ -108,8 +108,9 @@ class FoodRecordController extends Controller
             return redirect('Diary.top');
         }
         
+        //基礎代謝から当日の摂取カロリーを引く
         $day_all_cal = $today_consumed_cal - $bmr;
         
-        return view('Diary.food_record',compact('today_eat','today_consumed_cal','bmr','day_all_cal'));
+        return view('Diary.food_record', compact('today_eat', 'today_consumed_cal', 'bmr', 'day_all_cal'));
     }
 }

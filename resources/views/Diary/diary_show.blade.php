@@ -125,7 +125,7 @@
                             <p class="text-center font-weight-bold">{{$diary->body}}</p>
                     </div>
                     <!--日記のコメント-->
-                    </div>
+
                     @if($comments != [])
                         @foreach($comments as $comment)
                         <div class="form-group row">
@@ -142,7 +142,7 @@
                             @csrf
                                 <button type="submit" class="btn btn-primary">編集</button>
                             </form>
-                            <span>・</span>
+                            
                             <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
                             @csrf
                                 <button type="submit" class="btn btn-primary">削除</button>
@@ -150,19 +150,20 @@
                             @endif
                         </div>  
                         @endforeach
+
                     @else
                         <div class="form-group row">
                             <label for="comments" class="col-md-4 col-form-label text-md-right">{{ __('コメント') }}</label>
                                 <p>コメントはありません</p>
                         </div>
                     @endif
-                   
-                    
+
                     <form action="{{route('Diary.top')}}" method="get">
                     @csrf
                         <button type="submit" class="btn btn-primary">TOPへ</button>
                     </form>  
                 </div>
+
             </div>
         </div>
     </div>

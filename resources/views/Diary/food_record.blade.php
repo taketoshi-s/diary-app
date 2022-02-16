@@ -86,12 +86,14 @@
                             <p class="text-center font-weight-bold h6">総カロリー</p>
                             <p class="text-center font-weight-bold h6">{{round($day_all_cal)}}</p>
                         </div>
-                    <div class = "icon-create-button">
-                        <input class = "icon_back" name="back" type="submit" value="戻る" />
-                    </div>
+                        
+                        <div class = "icon-create-button">
+                            <input class = "icon_back" name="back" type="submit" value="戻る" />
+                        </div>
 
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

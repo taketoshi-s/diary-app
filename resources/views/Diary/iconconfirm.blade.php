@@ -22,7 +22,6 @@
 .icon_save {  
     margin-left: 5;
 }
-
 </style>
 
 @section('content')
@@ -33,13 +32,12 @@
                 <div class="card-header">{{ __('アイコン登録') }}</div>
 
                 <div class="card-body">
-                    <form method = "post" action = "iconsend">                        
-                    @csrf
-                                                
+                    <form method = "post" action = "icon_send">                        
+                    @csrf                        
                         <div class = "selected_icon">
-                             <img src="{{asset($input['icon'])}}" alt="" width = '150' height = '150'> 
-                                
+                            <img src="{{asset($input['icon'])}}" alt="" width = '150' height = '150'> 
                         </div>
+
                         <div class = "user">
                             <p>{{ Auth::user()->nickname }}</p>
                             <p>こちらのアイコンでよろしいですか？</p>
@@ -51,6 +49,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

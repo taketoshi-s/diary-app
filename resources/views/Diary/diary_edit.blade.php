@@ -21,7 +21,7 @@
                         @endif
                 
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('今日の運動') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('今日の運動') }}</label>
 
                             <div class="col-md-6">
                             <input type="checkbox" name="exercise[]" value="image/running_man.png">走る
@@ -32,7 +32,7 @@
                         </div>
                         
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('調子') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('調子') }}</label>
 
                             <div class="col-md-6">
                                 <input type="radio" name = "condition" value = 1 @if($diary->condition == 1) checked @endif>
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('充実') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('充実') }}</label>
 
                             <div class="col-md-6">
                                 <input type="radio" name = "fullness" value = 1 @if($diary->fullness == 1) checked @endif>
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('努力') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('努力') }}</label>
 
                             <div class="col-md-6">
                                 <input type="radio" name = "effort" value = 1 @if($diary->effort == 1) checked @endif>
@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('日記') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('日記') }}</label>
 
                             <div class="col-md-6">
                                 <textarea name="body"maxlength="255" cols="30" rows="10">{{$diary->body}}</textarea>
@@ -109,12 +109,11 @@
                                     {{ __('確認') }}
                                 </button>
                             </div>
-                               
+                            
                         </div>
                         
                     </form>
 
-                </div>
                 </div>
             </div>
         </div>

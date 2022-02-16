@@ -19,6 +19,7 @@
                                 </ul>
                             </div>
                         @endif
+                        
                         <!--コメント編集-->
                         <div class="form-group row">
                             <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('コメント編集') }}</label>
@@ -33,9 +34,10 @@
                                 </button>
                             </div>
                         </div>
+
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </div>

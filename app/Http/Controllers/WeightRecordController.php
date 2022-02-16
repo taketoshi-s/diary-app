@@ -17,10 +17,10 @@ use Carbon\CarbonPeriod;
 
 class WeightRecordController extends Controller
 {
+    //体重用バリデータ
     private $validator = [
-		
+
         'weight' => 'required|numeric|regex:/^([1-9][0-9]{0,2}0)(\.[0-9]{1})?$/|between:30,150|',
-        
     ];
     
     //体重記録画面
@@ -35,44 +35,34 @@ class WeightRecordController extends Controller
         
         //ログインしているユーザーを見つける
         $user = Auth::user()->id;
-        
         //記録当日の日付
         $today=Carbon::today();
-        
-        
-        
-        
+
         //記録当日のデータを取得
-        $today_weightrecord = DB::table('weight_records')
-            ->whereDate('created_at','=' ,$today)//当日のデータ
-            ->where('user_id','=',$user) //ユーザーID
+        $today_weight_record = DB::table('weight_records')
+            ->whereDate('created_at','=', $today)//当日のデータ
+            ->where('user_id', '=', $user) //ユーザーID
             ->first();
-        
-        
-        
+
         //今日のデータがあれば上書き、なければ新規に記録
-        if(!empty($today_weightrecord)){
+        if(!empty($today_weight_record)){
             
-            $weightrecord = WeightRecord::find($today_weightrecord->id);
-            $weightrecord->weight = $request->weight;
-            $weightrecord->user_id = $request->user()->id;
-            $weightrecord->save();
+            $weight_record = WeightRecord::find($today_weight_record->id);
+            $weight_record->weight = $request->weight;
+            $weight_record->user_id = $request->user()->id;
+            $weight_record->save();
         }else{
-           
-            $weightrecord = new WeightRecord;
-            $weightrecord->weight = $request->weight;
-            $weightrecord->user_id =$request->user()->id;
-            \Log::debug('empty');
-            $weightrecord->save();
+
+            $weight_record = new WeightRecord;
+            $weight_record->weight = $request->weight;
+            $weight_record->user_id =$request->user()->id;
+            $weight_record->save();
         }
-        
-        
-        //\Log::debug($today_weightrecord);
-        
-       
+
         return redirect()->action('WeightRecordController@weight_result');
     }
-
+    
+    //体重記録結果画面呼び出し
     public function weight_result(Request $request)
     {    
         //記録当日の日付
@@ -89,19 +79,20 @@ class WeightRecordController extends Controller
         $two_week_ago_record=[];
         $last_week_end_weight="";
         $last_Month_record = "";
+
         //登録時のid・体重
         $user_id = Auth::user()->id;
         $oldest_weight = Auth::user()->weight;
         
         //ログインしてるユーザーの体重記録を新しい順に取得
-        $user_record = WeightRecord::where('user_id','=',$user_id)->orderBy('created_at', 'desc')->get();
+        $user_record = WeightRecord::where('user_id', '=', $user_id)->orderBy('created_at', 'desc')->get();
         
         //ログインしてるユーザーの体重記録を一番新しいデータ　＝＝　今日の体重
         $today_record =$user_record[0];
 
         //ログインしてるユーザーの体重記録を一番新しいデータの日付　＝＝　今日の日付　でなければ戻る
         if($today_record->created_at->format('y-m-d') !== $today->format('y-m-d')){
-          
+        
             return redirect()->action("WeightRecordController@weight_record");
         }
         
@@ -129,15 +120,16 @@ class WeightRecordController extends Controller
         
         }else{
             
+            $last_record = '';
             $result_weight = 'ーーーー';
             $last_time_day ='ー/ー';
             $msg = '今日が初めての記録';
 
         }
-       
+
         //1日前のデータがあれば条件に合わせてコメントを出す
-       if(!empty($last_record) && $last_time_day == $yesterday->format('m/d')){
-           
+        if(!empty($last_record) && $last_time_day == $yesterday->format('m/d')){
+
         //昨日の体重から今日の体重を引く
         $sub =$today_record->weight - $last_record->weight;
             //昨日の体重が今日の体重'以下'なら
@@ -154,15 +146,14 @@ class WeightRecordController extends Controller
         
                 $msg = 'アカーン！昨日より増えてるやん！！';
             
+            }
         }
-    }
     
-
         //先週のデータを取得
-        $last_week_record = WeightRecord::whereDate('created_at','<=',$one_week_ago->endOfWeek())
-            ->whereDate('created_at','>=',$one_week_ago->startOfWeek())
-            ->where('user_id','=',$user_id)
-            ->orderby('created_at','desc')
+        $last_week_record = WeightRecord::whereDate('created_at', '<=', $one_week_ago->endOfWeek())
+            ->whereDate('created_at', '>=', $one_week_ago->startOfWeek())
+            ->where('user_id', '=', $user_id)
+            ->orderby('created_at', 'desc')
             ->first(); 
         
         if(!empty($last_week_record)){
@@ -174,24 +165,23 @@ class WeightRecordController extends Controller
             $Week_sub_weight = '';               
         }
         
-        
         $start = Auth::user()->created_at;# 開始日時 ＜ユーザー登録時＞
         $end = Carbon::today();# 終了日時
 
-    if($start->format('y-m') == $today->format('y-m')){
+        if($start->format('y-m') == $today->format('y-m')){
 
-        $month_day = $start;
+            $month_day = $start;
 
-    }else{
+        }else{
 
-        $month_day = $one_month_ago;
+            $month_day = $one_month_ago;
 
-    }
+        }
 
-        $last_Month_record = WeightRecord::whereDate('created_at','>=',$month_day->startOfMonth())
-            ->whereDate('created_at','<=',$month_day->endOfMonth())
-            ->where('user_id','=',$user_id)
-            ->orderby('created_at','desc')
+        $last_Month_record = WeightRecord::whereDate('created_at', '>=', $month_day->startOfMonth())
+            ->whereDate('created_at', '<=', $month_day->endOfMonth())
+            ->where('user_id', '=', $user_id)
+            ->orderby('created_at', 'desc')
             ->first();
 
             
@@ -204,10 +194,8 @@ class WeightRecordController extends Controller
 
             $Month_sub_weight = '';    
         }
-      
         
-    return view('Diary.weightresult',compact('today_record','today','msg','result_weight','last_time_day','week_msg','one_week_ago','two_week_ago_record','oldest_weight','last_week_end_weight','Month_sub_weight','Week_sub_weight','last_record','last_Month_record'));
-   
+    return view('Diary.weight_result', compact('today_record', 'today', 'msg', 'result_weight', 'last_time_day', 'week_msg', 'one_week_ago', 'two_week_ago_record', 'oldest_weight', 'last_week_end_weight', 'Month_sub_weight', 'Week_sub_weight', 'last_record', 'last_Month_record'));
     }
 
 }

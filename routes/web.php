@@ -20,21 +20,21 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('Diary/top', 'DiaryController@top')->name("Diary.top");
     
     //キャラクター登録画面
-    Route::get('Diary/nickname', 'DiaryController@charactercreate')->name("Diary.charactercreate");
-    Route::post('Diary/characterstore', 'DiaryController@characterstore')->name("Diary.characterstore");;
-    Route::get('Diary/characterconfirm', 'DiaryController@characterconfirm');
-    Route::post('Diary/charactersend', 'DiaryController@charactersend');
+    Route::get('Diary/nickname', 'DiaryController@character_create')->name("Diary.character_create");
+    Route::post('Diary/character_store', 'DiaryController@character_store')->name("Diary.character_store");;
+    Route::get('Diary/character_confirm', 'DiaryController@character_confirm');
+    Route::post('Diary/character_send', 'DiaryController@character_send');
     
     //アイコン登録画面
-    Route::get('Diary/iconselect', 'DiaryController@iconselect');
-    Route::post('Diary/iconstore', 'DiaryController@iconstore')->name("Diary.iconstore");
-    Route::get('Diary/iconconfirm', 'DiaryController@iconconfirm');
-    Route::post('Diary/iconsend', 'DiaryController@iconsend');
+    Route::get('Diary/icon_select', 'DiaryController@icon_select');
+    Route::post('Diary/icon_store', 'DiaryController@icon_store')->name("Diary.icon_store");
+    Route::get('Diary/icon_confirm', 'DiaryController@icon_confirm');
+    Route::post('Diary/icon_send', 'DiaryController@icon_send');
     
     //体重を記録
     Route::get('Diary/weight_record', 'WeightRecordController@weight_record')->name("Diary.weight_record");
     Route::post('Diary/weight_record_save', 'WeightRecordController@weight_record_save')->name("Diary.weight_record_save");
-    Route::get('Diary/weightresult', 'WeightRecordController@weight_result')->name("Diary.weight_result");
+    Route::get('Diary/weight_result', 'WeightRecordController@weight_result')->name("Diary.weight_result");
     
     //食事を記録   
     Route::get('Diary/food_record', 'FoodRecordController@food_record')->name("Diary.food_record");

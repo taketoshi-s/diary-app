@@ -21,7 +21,7 @@
                 <div class="card-header">{{ __('ニックネーム登録') }}</div>
 
                 <div class="card-body">
-                    <form method = "post" action = "charactersend">                        
+                    <form method = "post" action = "character_send">                        
                     @csrf                    
                         <div class="form-group row">
                             <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('ニックネーム') }}</label>
@@ -58,7 +58,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <input name="back" type="submit" value="戻る" class="btn btn-primary"/>
-                                <input type="submit" value="送信"　class="btn btn-primary" />
+                                <input type="submit" value="送信" class="btn btn-primary" />
                             </div>
                         </div>
 

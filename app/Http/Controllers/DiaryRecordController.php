@@ -21,7 +21,7 @@ use App\Http\Requests\CommentRequest;
 
 class DiaryRecordController extends Controller
 {
-    //characterstore用バリデーション
+    //diary用バリデーション
     private $validator = [
 		
             'condition' => 'required',
@@ -30,43 +30,34 @@ class DiaryRecordController extends Controller
             'body' => 'required|max:255',
     ];
 
-    //日記top　過去の日記一覧画面
+    //日記top(過去の日記一覧画面)
     public function diary_history(Request $request){
         
-        //記録当日の日付 (日記履歴欄で当日のデータのみ編集できるようにしたいため)
-        $today=Carbon::today();
-        //ログインしているユーザーの日記を取得
-        $diaries = Diary::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();  
-        
-        
-        
-        return view('Diary.diary_history',compact('diaries','today')); 
+        //ログインしているユーザーの全日記取得
+        $diaries = Diary::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();  
+
+        return view('Diary.diary_history',compact('diaries')); 
     }
 
     //日記フォーム画面の呼び出し
     public function diary_record(Request $request)
     {   
-         
         return view('Diary.diary_create');
     }
     
     //日記フォームの内容をセッションに保存
     public function diary_create(DiaryRequest $request)
     {   
-        
-        if ($request->has('exercise')) {
+        if($request->has('exercise')){
 
             $exercise = $request->exercise;
-
             $input['exercise'] = implode(",", $exercise);
         }
-    
         $input['body'] = $request->body;
         $input['condition'] = $request->condition;
         $input['fullness'] = $request->fullness;
         $input['effort'] = $request->effort;
         
-
         //セッションに値を入れる
         $request->session()->put("diary_input", $input);
 
@@ -83,16 +74,16 @@ class DiaryRecordController extends Controller
         
         //セッションに値が無い時は日記フォームに戻る
         if(!($input)){
-           
+
             return redirect()->action("DiaryRecordController@diary_record");
         }
         
-        return view('Diary.diary_create_confirm',["input" => $input,"exercises"=> $exercises]);
+        return view('Diary.diary_create_confirm', ["input" => $input, "exercises"=> $exercises]);
     }
 
     //日記の登録処理
     public function diary_save(Request $request){
-       
+
         //セッションから値を取り出す
         $input = $request->session()->get("diary_input");
         //記録当日の日付
@@ -101,17 +92,14 @@ class DiaryRecordController extends Controller
         //戻るボタンの処理
         if($request->has("back")){
             return redirect()->action("DiaryRecordController@diary_record")
-        		->withInput($input);
-                \Log::debug($input);
+                ->withInput($input);
         }
         
         //記録当日のデータを取得
         $today_diaryrecord = DB::table('diaries')
-            ->whereDate('created_at','=' ,$today)//当日のデータ
-            ->where('user_id','=',Auth::user()->id) //ユーザーID
+            ->whereDate('created_at', '=', $today)//当日のデータ
+            ->where('user_id', '=', Auth::user()->id) //ユーザーID
             ->first();
-        
-        
         
         //今日のデータがあれば上書き、なければ新規に記録
         if(!empty($today_diaryrecord)){
@@ -139,37 +127,35 @@ class DiaryRecordController extends Controller
             $diary->save();
         
         }
-
         //セッションを空にする
         $request->session()->forget("diary_input");
 
         return redirect()->action('DiaryRecordController@diary_history');
     }
     
-    //＜日記を見る＞の画面
+    //日記を見るの処理
     public function diary_show($id)
     {   
         //選択した日記を取得
         $diary = Diary::find($id);
+         //ログインしているユーザーを取得
         $user = Auth::user();
         
-        //コメントを取得
-        $comments  = Comments::where('diary_id','=',$diary->id)->get();
-        //コメントのユーザー情報を取得
+        //コメントを全て取得
+        $comments  = Comments::where('diary_id', '=', $diary->id)->get();
+        //コメントのユーザー情報全てを取得
         $comment_users = DB::table('users')->get();
 
         $exercises = explode(",", $diary->exercise);
         
-        
         //選択した日記と同じ日付の<体重>を<WeightRecord>テーブルから取得
-        $that_day_weight = WeightRecord::whereDate('created_at',$diary->created_at->format('y-m-d'))->where('user_id',$diary->user_id)->first();
+        $that_day_weight = WeightRecord::whereDate('created_at', $diary->created_at->format('y-m-d'))->where('user_id', $diary->user_id)->first();
         
         //選択した日記の日付より前で一番新しい日付の<体重>を<WeightRecord>テーブルから取得
-        $last_day_weight = WeightRecord::whereDate('created_at','<',$diary->created_at->format('y-m-d'))
-                                ->where('user_id',$diary->user_id)
-                                ->orderBy('created_at','desc')
+        $last_day_weight = WeightRecord::whereDate('created_at', '<', $diary->created_at->format('y-m-d'))
+                                ->where('user_id', $diary->user_id)
+                                ->orderBy('created_at', 'desc')
                                 ->first();
- 
 
         //上記のデータがあれば体重差を出し、なければ<-.-->を変数に代入　
         if(!empty($last_day_weight) && !empty($that_day_weight)){
@@ -181,19 +167,18 @@ class DiaryRecordController extends Controller
             $result_weight = '＜ー.ーー＞';
         }
             
-        return view('Diary.diary_show',compact('diary','that_day_weight','result_weight','last_day_weight','exercises','comments','comment_users','user'));
+        return view('Diary.diary_show', compact('diary', 'that_day_weight', 'result_weight', 'last_day_weight', 'exercises', 'comments', 'comment_users', 'user'));
     }
     
-    //日記編集　画面
+    //日記編集画面の呼び出し
     public function diary_edit($id)
     {   
-
         //選択した日記を取得
         $diary = Diary::find($id);
-        return view('Diary.diary_edit')->with('diary',$diary);
+        return view('Diary.diary_edit')->with('diary', $diary);
     }
 
-    //日記編集　処理
+    //日記編集の処理
     public function diary_update(DiaryRequest $request,$id)
     {
         //選択した日記を取得
@@ -202,7 +187,6 @@ class DiaryRecordController extends Controller
         if ($request->has('exercise')) {
 
             $exercise = $request->exercise;
-
             $exercises = implode(",", $exercise);
             $diary->exercise = $exercises;
         }
@@ -211,53 +195,50 @@ class DiaryRecordController extends Controller
         $diary->fullness = $request->fullness;
         $diary->effort = $request->effort;
         $diary->body = $request->body;
-
         $diary->save();
 
         return redirect()->action('DiaryRecordController@diary_history');
     }
 
+    //フレンドの日記一覧表示
     public function friend_diary(Request $request)
     {
         //ログインしているユーザー
         $user = Auth::user();
-        
         //フレンドのユーザーを取得
-        $friends = Frends::where('user_id','=',$user->id)->get();
+        $friends = Frends::where('user_id', '=', $user->id)->get();
         //全ての日記を取得
-        $diaries = Diary::orderBy('created_at','desc')->get();  
-        
+        $diaries = Diary::orderBy('created_at', 'desc')->get();  
         //日記の作者を取得
         $authors = DB::table('users')->get();
         
-        return view('Diary.friend_diary',compact('diaries','friends','authors'));
+        return view('Diary.friend_diary', compact('diaries', 'friends', 'authors'));
     }
-
-    public function friend_diary_show ($id)
+    
+    //フレンドの日記を見る処理
+    public function friend_diary_show($id)
     {
-       
         //選択した日記を取得
         $diary = Diary::find($id);
         //ログインしているユーザー
         $user = Auth::user();
         
         //コメントを取得
-        $comments  = Comments::where('diary_id','=',$diary->id)->get();
+        $comments  = Comments::where('diary_id', '=', $diary->id)->get();
         
         //コメントしたユーザー情報を取得
         $comment_users = DB::table('users')->get();
-    
+
         $exercises = explode(",", $diary->exercise);
         
         //選択した日記と同じ日付の<体重>を<WeightRecord>テーブルから取得
-        $that_day_weight = WeightRecord::whereDate('created_at',$diary->created_at->format('y-m-d'))->where('user_id',$diary->user_id)->first();
+        $that_day_weight = WeightRecord::whereDate('created_at', $diary->created_at->format('y-m-d'))->where('user_id', $diary->user_id)->first();
         
         //選択した日記の日付より前で一番新しい日付の<体重>を<WeightRecord>テーブルから取得
-        $last_day_weight = WeightRecord::whereDate('created_at','<',$diary->created_at->format('y-m-d'))
-                                ->where('user_id',$diary->user_id)
-                                ->orderBy('created_at','desc')
+        $last_day_weight = WeightRecord::whereDate('created_at', '<', $diary->created_at->format('y-m-d'))
+                                ->where('user_id', $diary->user_id)
+                                ->orderBy('created_at', 'desc')
                                 ->first();
- 
 
         //上記のデータがあれば体重差を出し、なければ<-.-->を変数に代入　
         if(!empty($last_day_weight) && !empty($that_day_weight)){
@@ -268,11 +249,12 @@ class DiaryRecordController extends Controller
             
             $result_weight = '＜ー.ーー＞';
         }
-            
-        return view('Diary.friend_diary_show',compact('diary','that_day_weight','result_weight','last_day_weight','exercises','comments','comment_users','user'));
+        
+        return view('Diary.friend_diary_show',compact('diary', 'that_day_weight', 'result_weight', 'last_day_weight', 'exercises', 'comments', 'comment_users', 'user'));
     }
-
-    public function diary_comment_save (CommentRequest $request,$id)
+    
+    //コメント登録する処理
+    public function diary_comment_save (CommentRequest $request, $id)
     {
         //選択した日記を取得
         $diary = Diary::find($id);
@@ -286,17 +268,19 @@ class DiaryRecordController extends Controller
 
         return redirect()->action('DiaryRecordController@friend_diary');
     }
-
+    
+    //コメントを編集画面呼び出し処理
     public function diary_comment_edit($id)
     {   
 
         //選択したコメントを取得
         $comment = Comments::find($id);
 
-        return view('Diary.diary_comment_edit')->with('comment',$comment);
+        return view('Diary.diary_comment_edit')->with('comment', $comment);
     }
     
-    public function diary_comment_update(CommentRequest $request,$id)
+    //コメントを編集保存処理
+    public function diary_comment_update(CommentRequest $request, $id)
     {
         //選択したコメントを取得
         $comment = Comments::find($id);
@@ -308,40 +292,48 @@ class DiaryRecordController extends Controller
 
         return redirect()->action('DiaryRecordController@friend_diary');
     }
-
+    
+    //コメントを削除処理
     public function diary_comment_destroy($id) {
         
         //選択したコメントを取得
         $comment = Comments::find($id);
-        
         $comment->delete();
 
         return redirect()->action('DiaryRecordController@friend_diary');
     }
-
+    
+    //友達の検索画面を呼び出し
     public function friend_find(Request $request) {
         
         $input = '';
     
         return view('Diary.friend_find',compact('input'));
     }
-
+    
+    //友達検索機能処理
     public function friend_search(Request $request) {
         
+        //検索内容
         $input = $request->input;
-         //ログインしているユーザー
+        //ログインしているユーザー
         $user = Auth::user();
-        $search_user = User::where('name',$input)->first();
-        $friend = Frends::where('user_id','=',Auth::user()->id)->where('friend_id','=',$search_user->id )->first();
+        //検索されたユーザー
+        $search_user = User::where('name', $input)->first();
+        //ログインユーザーのフレンド
+        $friend = Frends::where('user_id', '=', Auth::user()->id)->where('friend_id', '=', $search_user->id )->first();
 
-        return view('Diary.friend_find',compact('input','search_user','friend','user'));
+        return view('Diary.friend_find', compact('input', 'search_user', 'friend', 'user'));
     }
-
+    //友達登録機能処理
     public function friend_add(Request $request) {
         
+        //ログインしているユーザー
         $user = Auth::user();
-        $search_user = User::where('name',$request->input)->first();
-        $friend_user = Frends::where('user_id','=',$user->id)->where('friend_id','=',$search_user->id)->first();
+        //検索されたユーザー
+        $search_user = User::where('name', $request->input)->first();
+        //ログインユーザーのフレンド
+        $friend_user = Frends::where('user_id', '=', $user->id)->where('friend_id', '=', $search_user->id)->first();
         
         if(empty($friend_user)){
             
@@ -356,23 +348,24 @@ class DiaryRecordController extends Controller
             $friend->friend_id =  $search_user->id;
             $friend->save();
         }
+        
         return redirect()->action('DiaryRecordController@friend_diary');
     }
-
+    //友達リスト画面呼び出し
     public function friend_list(Request $request) {
         
-        
-        $friends = Frends::where('user_id','=',Auth::user()->id)->get();
+        //ログインしているユーザーのフレンド全取得
+        $friends = Frends::where('user_id', '=', Auth::user()->id)->get();
+        //ユーザー全取得($friendsのユーザー情報を取得するため)
         $users = DB::table('users')->get();
     
-        return view('Diary.friend_list',compact('users','friends'));
+        return view('Diary.friend_list', compact('users', 'friends'));
     }
-
+    //友達の削除処理
     public function friend_destroy($id) {
         
-        //選択したコメントを取得
+        //選択したフレンドを取得
         $friend = Frends::find($id);
-        
         $friend->delete();
 
         return redirect()->action('DiaryRecordController@friend_list');

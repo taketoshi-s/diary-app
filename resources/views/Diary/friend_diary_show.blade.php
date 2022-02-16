@@ -40,27 +40,20 @@
 
                     <div class = "exercises-img">
                             @if(count($exercises) <=1)
-                                
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    
+                                <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'> 
                             @elseif(count($exercises) <=2)
-                                
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
                                 
                             @elseif(count($exercises) <=3)
-                                
-                                    <img class="text-center"　src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
-                                
+                                <img class="text-center"　src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
                             @elseif(count($exercises) <=4)
-                                
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[3])}}" alt="走る" width ='65' height = '65'>
-                                
+                                <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
+                                <img src="{{asset($exercises[3])}}" alt="走る" width ='65' height = '65'>
                             @endif
                     </div>
                     
@@ -168,6 +161,7 @@
                         </div>
                     @endif
                     </div>
+
                     <form action="{{route('Diary.diary_comment_save',$diary->id)}}" method = "post">   
                         @csrf
                         @if ($errors->any())
@@ -186,10 +180,10 @@
                                     <button type="submit" class="btn btn-primary">送信</button>
                                 </div>
                         </div>
-                    </form>
-                                        
 
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
