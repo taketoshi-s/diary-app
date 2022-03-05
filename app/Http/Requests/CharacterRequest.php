@@ -29,6 +29,7 @@ class CharacterRequest extends FormRequest
             'age'=> 'required|integer|regex:/^[0-9]+$/i|between:10,100|', 
             'weight' => ['required','numeric','regex:/^[1-9][0-9]{0,2}(\.[0-9]{1,2})?$/','between:30,150'],
             'height' => 'required|integer|regex:/^[0-9]+$/i|between:110,220|',
+            'gender' => 'required|integer',
         ];
     }
 
@@ -52,6 +53,8 @@ class CharacterRequest extends FormRequest
             'height.regex' => '身長は半角数字で入力してください。',
             'height.between' => '身長は110〜220の間で入力してください。',
             'icon' => 'アイコン画像を選択してください',
+            'gender.required' => '性別を選択してください',
+            'gender.integer' => '性別を選択してください',
         ];
     }
 }

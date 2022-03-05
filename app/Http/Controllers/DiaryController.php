@@ -17,7 +17,7 @@ use Carbon\CarbonPeriod;
 
 class DiaryController extends Controller
 {
-    private $Character_items = ["nickname", "age", "weight","height","icon"];
+    private $Character_items = ["nickname", "age", "weight","height","icon",'gender'];
     
     //characterstore用バリデーション
     private $validator = [
@@ -26,6 +26,7 @@ class DiaryController extends Controller
             'age'=> 'required|integer|regex:/^[0-9]+$/i|between:10,100|', 
             'weight' => 'required','numeric','regex:/^[1-9][0-9]{0,2}(\.[0-9]{1,2})?$/','between:30,150',
             'height' => 'required|integer|regex:/^[0-9]+$/i|between:110,220|',
+            'gender' => 'required|integer',
     
     ];
     
@@ -58,7 +59,7 @@ class DiaryController extends Controller
     {       
         //フォームに入力された値をそれぞれに入れる
         $input = $request->only($this->Character_items);
-        
+
         $validator = Validator::make($input, $this->validator);
         
         //バリデーションに掛かればフォームに戻る
@@ -67,7 +68,8 @@ class DiaryController extends Controller
             return redirect()->action("DiaryController@character_create")
 				->withInput()
 				->withErrors($validator);
-    }
+        }
+
         //セッションに値を入れる
         $request->session()->put("character_input", $input);
 
@@ -120,6 +122,7 @@ class DiaryController extends Controller
         $character->age = $input['age'];
         $character->weight = $input['weight'];
         $character->height = $input['height'];
+        $character->gender = $input['gender'];
         $character->save();
     
         return redirect()->action('DiaryController@icon_select');
