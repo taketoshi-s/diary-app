@@ -97,7 +97,7 @@
                                 <label for="contactChoice1"> <img src="{{ asset('image/zekkoutyo.png') }}" alt="絶好調" width = '40' height = '40'></label>
                             </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('日記') }}</label>
 

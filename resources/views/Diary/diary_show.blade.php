@@ -38,32 +38,54 @@
                             <p class="text-center font-weight-bold h6">運動</p>
                     </div>
 
-                    <div class = "exercises-img">
-                            @if(count($exercises) <=1)
+                    <table class="table table-borderless"　style= "max-width:350px; margin-top:20px;">
+                        
+                        <tbody>
+                            <tr>
+                                @if(count($exercises) <=1)
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
                                 
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                @elseif(count($exercises) <=2)
                                     
-                            @elseif(count($exercises) <=2)
-                                
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
-                                
-                            @elseif(count($exercises) <=3)
-                                
-                                    <img class="text-center"　src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
-                                
-                            @elseif(count($exercises) <=4)
-                                
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
-                                    <img src="{{asset($exercises[3])}}" alt="走る" width ='65' height = '65'>
-                                
-                            @endif
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
 
-                    </div>
+                                @elseif(count($exercises) <=3)
+
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                
+                                @elseif(count($exercises) <=4)
+
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[2])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{asset($exercises[3])}}" alt="走る" width ='65' height = '65'>
+                                    </td>
+                                @endif
+                            </tr>
+                        </tbody>
+                    </table>
                     
                     <table class="table table-bordered "　style= "max-width:400px; margin-top:20px;">
                         <thead>
@@ -142,7 +164,7 @@
                             @csrf
                                 <button type="submit" class="btn btn-primary">編集</button>
                             </form>
-                            
+
                             <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
                             @csrf
                                 <button type="submit" class="btn btn-primary">削除</button>

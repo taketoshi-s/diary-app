@@ -5,52 +5,82 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('ニックネーム登録') }}</div>
+                <div class="card-header">{{ __('会員登録') }}</div>
 
                 <div class="card-body">
-                    <form method = "post" action = "{{route('Diary.character_store')}}">                        
+                <form method = "post" action = "{{route('Diary.character_store')}}">    
                     @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                
-
-                        <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('ニックネーム') }}</label>
+                        <div class="form-group text-right row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('ニックネーム') }}</label>
 
                             <div class="col-md-6">
-                                <input type="text" name = "nickname" value = "{{old('nickname')}}">
+                                <input id="name" type="text" class="form-control @error('nickname') is-invalid @enderror" name="nickname" value="{{ old('nickname') }}" required autocomplete="name" autofocus>
+
+                                @error('nickname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('性別') }}</label>
+                            
+                            <div class="col-md-6">
+                                <select class="form-select @error('gender') is-invalid @enderror" aria-label="Default select example" name="gender" value="{{ old('gender') }}">
+                                    <option selected>性別を選択してくだい</option>
+                                    <option value="1">女性</option>
+                                    <option value="2">男性</option>
+                                </select>
+                                @error('gender')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('年齢') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('age') is-invalid @enderror" name="age" value="{{ old('age') }}" required autocomplete="age">
+
+                                @error('age')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('年齢') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('体重') }}</label>
 
                             <div class="col-md-6">
-                                <input type="text" name = "age"　value = "{{old('age')}}">
+                                <input type="text" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}" required autocomplete="weight">
+
+                                @error('weight')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('体重') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('身長') }}</label>
 
                             <div class="col-md-6">
-                                <input type="text" name = "weight" value = "{{old('weight')}}">
+                            <input type="text" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="height">
+                            @error('height')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('身長') }}</label>
-
-                            <div class="col-md-6">
-                                <input type="text" name = "height" value = "{{old('height')}}">
-                            </div>
+                    
                         </div>
 
                         <div class="form-group row mb-0">
@@ -60,10 +90,8 @@
                                 </button>
                             </div>
                         </div>
-
                     </form>
                 </div>
-                
             </div>
         </div>
     </div>

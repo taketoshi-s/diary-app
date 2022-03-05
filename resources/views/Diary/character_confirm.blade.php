@@ -1,8 +1,5 @@
 @extends('layouts.app')
 <style>
-.character-item {
-   
-}
 
 .character-items {
     text-align: center;
@@ -22,44 +19,48 @@
 
                 <div class="card-body">
                     <form method = "post" action = "character_send">                        
-                    @csrf                    
-                        <div class="form-group row">
-                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('ニックネーム') }}</label>
+                    @csrf
+                    <div class="text-center">
+                    
+                            <p class="text-center h6 mx-5">ニックネーム</p>
+                            <p class="text-center font-weight-bold h4 mx-5 my-3">{{ $input["nickname"] }}<span p class="text-center h6 mx-1">さん</span></p>
                             
-                            <div class="col-md-6">
-                            {{ $input["nickname"] }} さん
-                            </div>
-                        </div>
+                    </div>
+                
+                    <div class="text-center"> 
+                            <p class="text-center h6 mx-5">性別</p>
+                    
+                            @if($input["gender"] == 0)
+                                <p class="text-center font-weight-bold h4 mx-5 my-3"> 女性</p>
+                            @else
+                                <p class="text-center font-weight-bold h4 mx-5 my-3"> 男性</p>
+                            @endif
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('年齢') }}</label>
-                            
-                            <div class="col-md-6">
-                            {{ $input["age"] }} 歳
-                            </div>
-                        </div>
+                    <div class="text-center"> 
+                            <p class="text-center h6 mx-5">年齢</p>
+                            <p class="text-center font-weight-bold h4 mx-5 my-3">{{ $input["age"] }}<span p class="text-center h6 mx-1">歳</span></p>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('体重') }}</label>
-                            
-                            <div class="col-md-6">
-                            {{ $input["weight"] }} kg
-                            </div>
-                        </div>
+                    <div class="text-center"> 
+                            <p class="text-center h6 mx-5">体重</p>
+                            <p class="text-center font-weight-bold h4 mx-5 my-3">{{ $input["weight"] }}<span p class="text-center h6 mx-1">kg</span></p>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('身長') }}</label>
-                            
-                            <div class="col-md-6">
-                            {{ $input["height"] }} cm
-                            </div>
-                        </div>
-                                                
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                    <div class="text-center"> 
+                            <p class="text-center h6 mx-5">身長</p>
+                            <p class="text-center font-weight-bold h4 mx-5 my-3">{{ $input["height"] }}<span p class="text-center h6 mx-1">cm</span></p>
+                    </div>
+
+                        <div class="form-group row justify-content-center mt-5">
+                            <div class="mx-2">
                                 <input name="back" type="submit" value="戻る" class="btn btn-primary"/>
-                                <input type="submit" value="送信" class="btn btn-primary" />
                             </div>
+
+                            <div  class="mx-2">
+                            <input type="submit" value="登録" class="btn btn-primary" />
+                            </div>
+                                
                         </div>
 
                     </form>

@@ -19,14 +19,16 @@
                                 </ul>
                             </div>
                         @endif
-                
 
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            
                         <div class="form-group row">
                             <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('友達の名前を入力') }}</label>
 
+                            
                             <div class="col-md-6">
                                 <input type="text" name = "input" value = {{$input}}>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary ml-3">
                                     {{ __('探す') }}
                                 </button>
                             </div>
@@ -59,7 +61,6 @@
                         @endif
                     @endif
                 </div>
-                
             </div>
         </div>
     </div>

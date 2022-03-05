@@ -23,7 +23,6 @@
                                 @foreach($records as $record)
                                     @if($record->created_at->format('y-m-d') == $carbon->format('y-m-d'))
                                         <td>{{$record->weight}}</td>
-                                   
 
                                     
                                     
@@ -34,7 +33,7 @@
                                 @endforeach
                             
                             
-                               
+                            
                                 <!--日記を見る-->
                                 <td>
                                     <form action="#" method="get">

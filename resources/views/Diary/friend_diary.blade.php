@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="text-center">日付</th>
-                                <th scope="col" class="text-center">名前</th>
+                                <th scope="col" class="text-center">ユーザー</th>
                                 <th scope="col" class="text-center">閲覧</th>
                             </tr>
                         </thead>
@@ -32,15 +32,15 @@
                                                 @if($diary->user_id == $author->id)
                                                 <tr>
                                                     <!--日記の日付-->
-                                                    <td class="text-center">{{$diary->created_at->format('m/d')}}</td>
+                                                    <td class="text-center align-middle">{{$diary->created_at->format('m/d')}}</td>
                                                     <!--日記の作者-->
-                                                    <td class="text-center">
+                                                    <td class="text-center align-middle">
                                                         {{$author->nickname}}
                                                         <br>
                                                         <img src="{{asset($author->icon)}}" width="50" height="50">
                                                     </td>
                                                     <!--日記を見る-->
-                                                    <td class="text-center">
+                                                    <td class="text-center align-middle">
                                                         <form action="{{ action('DiaryRecordController@friend_diary_show', $diary->id) }}" method="get">
                                                         @csrf
                                                             <button type="submit" class="btn btn-outline-primary">見る</button>
