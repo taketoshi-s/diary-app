@@ -21,9 +21,11 @@ Route::group(['middleware' => 'auth'], function(){
     
     //キャラクター登録画面
     Route::get('Diary/nickname', 'DiaryController@character_create')->name("Diary.character_create");
-    Route::post('Diary/character_store', 'DiaryController@character_store')->name("Diary.character_store");;
+    Route::post('Diary/character_store', 'DiaryController@character_store')->name("Diary.character_store");
     Route::get('Diary/character_confirm', 'DiaryController@character_confirm');
     Route::post('Diary/character_send', 'DiaryController@character_send');
+    Route::get('Diary/character_edit', 'DiaryController@character_edit')->name("Diary.character_edit");
+    Route::post('Diary/character_update', 'DiaryController@character_update')->name("Diary.character_update");
     
     //アイコン登録画面
     Route::get('Diary/icon_select', 'DiaryController@icon_select');

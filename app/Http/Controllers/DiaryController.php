@@ -202,6 +202,31 @@ class DiaryController extends Controller
         
         return redirect()->action('DiaryController@top');
     }
+
+    //登録内容の変更画面呼び出し処理
+    public function character_edit(Request $request){
+
+        //セッションの値をデータベースに保存
+        $character = Auth::user();
+
+        return view('Diary.character_edit',compact('character'));
+    }
+
+    //登録内容の変更処理
+    public function character_update(CharacterRequest $request){
+
+        //セッションの値をデータベースに保存
+        $character = Auth::user();
+
+        $character->nickname = $request->nickname;
+        $character->gender = $request->gender;
+        $character->age = $request->age;
+        $character->height = $request->height;
+        $character->weight = $request->weight;
+        $character->save();
+
+        return redirect()->action('DiaryController@top');
+    }
     
     //機能　未実装
     public function history(Request $request)
