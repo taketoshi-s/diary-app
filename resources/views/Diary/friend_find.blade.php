@@ -35,7 +35,7 @@
                         </div>
                     </form>
 
-                    @if(isset($search_user))
+                    @if(!empty($search_user))
                         @if(empty($friend) && $search_user->id !== $user->id)
                             <form method = "post" action="{{route('Diary.friend_add')}}">
                             @csrf
@@ -59,6 +59,8 @@
                                 <p>既に友達に追加されています</p>
                             @endif
                         @endif
+                    @else
+                        <p>該当ユーザーが見つかりません</p>
                     @endif
                 </div>
             </div>

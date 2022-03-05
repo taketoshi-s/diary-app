@@ -320,8 +320,14 @@ class DiaryRecordController extends Controller
         $user = Auth::user();
         //検索されたユーザー
         $search_user = User::where('name', $input)->first();
-        //ログインユーザーのフレンド
-        $friend = Frends::where('user_id', '=', Auth::user()->id)->where('friend_id', '=', $search_user->id )->first();
+        $friend = '';
+        if(!empty($search_user)){
+            //ログインユーザーのフレンド
+            $friend = Frends::where('user_id', '=', Auth::user()->id)->where('friend_id', '=', $search_user->id )->first();
+
+        }
+        
+        
 
         return view('Diary.friend_find', compact('input', 'search_user', 'friend', 'user'));
     }
@@ -332,6 +338,7 @@ class DiaryRecordController extends Controller
         $user = Auth::user();
         //検索されたユーザー
         $search_user = User::where('name', $request->input)->first();
+
         //ログインユーザーのフレンド
         $friend_user = Frends::where('user_id', '=', $user->id)->where('friend_id', '=', $search_user->id)->first();
         
