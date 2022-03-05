@@ -150,29 +150,37 @@
 
                     @if($comments != [])
                         @foreach($comments as $comment)
-                        <div class="form-group row">
+                        <div class="comment-group row text-center">
                             @foreach($comment_users as $comment_user)
                                 @if($comment_user->id == $comment->user_id)
-                                    <p>{{$comment_user->nickname}}</p>
-                                    <img src="{{asset($comment_user->icon)}}" alt="icon" width="50" height="50">   
+                                    <div class="comment-user text-center  mx-2">
+                                        <img src="{{asset($comment_user->icon)}}" alt="icon" width="50" height="50">
+                                        <p class = "mb-1" style = "font-size: 20%">{{$comment_user->nickname}}</p>
+                                    </div>
                                 @endif
                             @endforeach
-                            <p>{{$comment->body}}</p>
-                            <p>{{$comment->created_at->format('n/j g:i')}}</p>
-                            @if($comment->user_id == $user->id)
-                            <form action="{{ action('DiaryRecordController@diary_comment_edit', $comment->id) }}" method="get">
-                            @csrf
-                                <button type="submit" class="btn btn-primary">編集</button>
-                            </form>
 
-                            <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
-                            @csrf
-                                <button type="submit" class="btn btn-primary">削除</button>
-                            </form>
+                            <div class="comment-body  mx-2">
+                                <p class = "font-weight-bold h6 text-left">{{$comment->body}}</p>
+                            </div>
+                            
+                            <div class="comment-date  mx-2">
+                                <p class = "font-weight-bold h6 text-center mx-2" style = "font-size: 20%">{{$comment->created_at->format('n/j g:i')}}</p>
+                            </div>
+                                
+                            @if($comment->user_id == $user->id)
+                                <form action="{{ action('DiaryRecordController@diary_comment_edit', $comment->id) }}" method="get">
+                                @csrf
+                                    <button type="submit" class="btn btn-outline-secondary mx-2 ml-4">編集</button>
+                                </form>
+                            
+                                <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
+                                @csrf
+                                    <button type="submit" class="btn btn-outline-danger mx-2">削除</button>
+                                </form>
                             @endif
                         </div>  
                         @endforeach
-
                     @else
                         <div class="form-group row">
                             <label for="comments" class="col-md-4 col-form-label text-md-right">{{ __('コメント') }}</label>
@@ -180,11 +188,25 @@
                         </div>
                     @endif
 
-                    <form action="{{route('Diary.top')}}" method="get">
-                    @csrf
-                        <button type="submit" class="btn btn-primary">TOPへ</button>
-                    </form>  
-                </div>
+                    <div class="form-group row justify-content-center mt-5">
+                        <form action="{{route('Diary.diary_edit',$diary->id)}}" method="get">
+                        @csrf
+                            <button type="submit" class="btn btn-outline-secondary mx-2 ml-4">編集</button>
+                        </form>     
+                    
+                        <form action="{{route('Diary.diary_destroy',$diary->id)}}" method="post">
+                        @csrf                            
+                            <button type="submit" class="btn btn-outline-danger mx-2">削除</button>
+                        </form>
+                    </div>
+                        
+                    <div class="justify-content-center">
+
+                        <form action="{{route('Diary.top')}}" method="get">
+                        @csrf
+                            <button type="submit" class="btn btn-primary">TOPへ</button>
+                        </form> 
+                    </div>
 
             </div>
         </div>

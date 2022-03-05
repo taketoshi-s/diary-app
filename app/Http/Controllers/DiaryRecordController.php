@@ -200,6 +200,16 @@ class DiaryRecordController extends Controller
         return redirect()->action('DiaryRecordController@diary_history');
     }
 
+    //日記削除処理
+    public function diary_destroy($id) {
+        
+        //選択したコメントを取得
+        $diary = Diary::find($id);
+        $diary->delete();
+
+        return redirect()->action('DiaryRecordController@diary_history');
+    }
+
     //フレンドの日記一覧表示
     public function friend_diary(Request $request)
     {
