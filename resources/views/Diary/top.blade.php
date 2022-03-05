@@ -42,6 +42,16 @@
                             </form>
                         </div>
                     </div>
+                
+
+                    <div class ="logins">
+                        <div class ="login mx-3 my-3">
+                            <form action="{{route('Diary.character_edit')}}" method="get">
+                            @csrf
+                                <button type="submit" class="btn btn-primary px-4 py-3">設定</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </div>
