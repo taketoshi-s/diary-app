@@ -44,7 +44,11 @@
                             <tr>
                                 @if(count($exercises) <=1)
                                     <td class="text-center">
+                                    @if($exercises[0] == '')
+                                        <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '65'>
+                                    @else
                                         <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    @endif
                                     </td>
                                 
                                 @elseif(count($exercises) <=2)
@@ -179,11 +183,26 @@
                                 <p>コメントはありません</p>
                         </div>
                     @endif
+                
+                    <div class="form-group row justify-content-center mt-5">
+                        <form action="{{route('Diary.diary_edit',$diary->id)}}" method="get">
+                        @csrf
+                            <button type="submit" class="btn btn-outline-secondary mx-2 ml-4">編集</button>
+                        </form>     
+                    
+                        <form action="{{route('Diary.diary_destroy',$diary->id)}}" method="post">
+                        @csrf                            
+                            <button type="submit" class="btn btn-outline-danger mx-2">削除</button>
+                        </form>
+                    </div>
+                        
+                    <div class="justify-content-center">
 
-                    <form action="{{route('Diary.top')}}" method="get">
-                    @csrf
-                        <button type="submit" class="btn btn-primary">TOPへ</button>
-                    </form>  
+                        <form action="{{route('Diary.top')}}" method="get">
+                        @csrf
+                            <button type="submit" class="btn btn-primary">TOPへ</button>
+                        </form> 
+                    </div>
                 </div>
 
             </div>

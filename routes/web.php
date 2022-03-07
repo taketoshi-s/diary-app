@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('Diary/diary_save', 'DiaryRecordController@diary_save')->name("Diary.diary_save");
     Route::get('Diary/{id}/diary_edit', 'DiaryRecordController@diary_edit')->name("Diary.diary_edit");
     Route::post('Diary/diary_update/{id}', 'DiaryRecordController@diary_update')->name("Diary.diary_update");
+    Route::post('Diary/diary_destroy/{id}', 'DiaryRecordController@diary_destroy')->name("Diary.diary_destroy");
     Route::get('Diary/{id}/diary_show', 'DiaryRecordController@diary_show')->name("Diary.diary_show");
 
     Route::get('Diary/history', 'DiaryController@history');
