@@ -33,7 +33,10 @@
                                         <option value="2">男性</option>
                                     @elseif($character->gender == 2)
                                         <option value="1">女性</option>
-                                        <option value="2"  selected>男性</option>
+                                        <option value="2" selected>男性</option>
+                                    @else
+                                        <option value="1">女性</option>
+                                        <option value="2">男性</option>
                                     @endif
                                 </select>
                                 @error('gender')
