@@ -51,6 +51,13 @@
                                 <button type="submit" class="btn btn-primary px-4 py-3">設定</button>
                             </form>
                         </div>
+
+                        <div class ="login mx-3 my-3">
+                            <form action="{{route('Diary.history')}}" method="get">
+                            @csrf
+                                <button type="submit" class="btn btn-primary px-4 py-3">履歴</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 

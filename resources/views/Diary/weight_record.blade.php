@@ -26,7 +26,7 @@
                                 <input type="text" name="weight" class="form-control" id="inputPassword2" placeholder="体重を入力">
                             
                                 <button type="submit" class="btn btn-primary mx-2">登録</button>
-                                <button type="button" class="btn btn-primary"　onClick="history.back()">戻る</button>
+                                <button type="button" class="btn btn-primary" onClick="history.back()">戻る</button>
                             </div>
                         </div>
                             
