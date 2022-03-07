@@ -231,14 +231,41 @@ class DiaryController extends Controller
     //機能　未実装
     public function history(Request $request)
     {   
+        return view('Diary.history');
+    }
+
+    public function weight_history(Request $request)
+    {   
+        $user = Auth::id();
+        $weights = WeightRecord::where('user_id', '=', $user)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+        return view('Diary.weight_history',compact('weights'));
+    }
+
+    public function food_history(Request $request)
+    {   
+        $user = Auth::id();
+        $foods = FoodRecord::where('user_id', '=', $user)
+                ->orderBy('created_at', 'desc')
+                ->get();
         
-        $period = CarbonPeriod::start(Auth::user()->created_at)->untilNow()->toArray();
-        foreach($period as $carbon){
+        $weight_data = DB::table('weight_records')
+                ->where('user_id', '=', $user)
+                ->get();
+                
+        if(!empty($last_weight_data)){
+            
+            $bmr = 13.397 * $weight_data->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
         
+        }else{
+            
+            $weight_data = '';
+            $bmr = 13.397 * Auth::user()->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
         }
-        $records = WeightRecord::where('user_id', Auth::user()->id)->get();
-        
-        rsort($period);
-        return view('Diary.history',compact('period','records'));
+                
+
+        return view('Diary.food_history',compact('foods','bmr','weight_data'));
     }
 }

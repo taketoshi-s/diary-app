@@ -53,8 +53,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('Diary/diary_destroy/{id}', 'DiaryRecordController@diary_destroy')->name("Diary.diary_destroy");
     Route::get('Diary/{id}/diary_show', 'DiaryRecordController@diary_show')->name("Diary.diary_show");
 
-    Route::get('Diary/history', 'DiaryController@history');
-    Route::get('Diary/history_show', 'DiaryController@history_show')->name("Diary.history_show");
+    Route::get('Diary/history', 'DiaryController@history')->name("Diary.history");
+    Route::get('Diary/weight_history', 'DiaryController@weight_history')->name("Diary.weight_history");
+    Route::get('Diary/food_history', 'DiaryController@food_history')->name("Diary.food_history");
     
     //友達の日記を閲覧、コメント記録
     Route::get('Diary/friend_diary', 'DiaryRecordController@friend_diary')->name("Diary.friend_diary");
