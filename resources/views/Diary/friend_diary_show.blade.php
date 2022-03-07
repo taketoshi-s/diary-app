@@ -44,7 +44,11 @@
                             <tr>
                                 @if(count($exercises) <=1)
                                     <td class="text-center">
+                                    @if($exercises[0] == '')
+                                        <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '65'>
+                                    @else
                                         <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    @endif
                                     </td>
                                 
                                 @elseif(count($exercises) <=2)

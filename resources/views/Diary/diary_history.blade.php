@@ -37,7 +37,13 @@
                                 
                                 <!--調子-->
                                 @if(count($exercises) <=1)
-                                <td class="text-center align-middle"><img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'></td>
+                                <td class="text-center align-middle">
+                                    @if($exercises[0] == '')
+                                        <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '50'>
+                                    @else
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                    @endif
+                                </td>
                                 @elseif(count($exercises) <=2)
                                 <td class="text-center align-middle"><img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
                                     <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>

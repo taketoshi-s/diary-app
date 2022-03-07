@@ -52,12 +52,18 @@ class DiaryRecordController extends Controller
 
             $exercise = $request->exercise;
             $input['exercise'] = implode(",", $exercise);
+        }else{
+            
+            $input['exercise'] = '';
+
         }
+
         $input['body'] = $request->body;
         $input['condition'] = $request->condition;
         $input['fullness'] = $request->fullness;
         $input['effort'] = $request->effort;
         
+
         //セッションに値を入れる
         $request->session()->put("diary_input", $input);
 
@@ -69,8 +75,10 @@ class DiaryRecordController extends Controller
         
         //セッションから値を取り出す
         $input = $request->session()->get("diary_input");
+
         
         $exercises = explode(",", $input['exercise']);
+
         
         //セッションに値が無い時は日記フォームに戻る
         if(!($input)){

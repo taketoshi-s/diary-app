@@ -16,9 +16,12 @@
                             
                             <div class="col-md-6">
                             @if(count($exercises) <=1)
-                            
+                                @if($exercises[0] == '')
+                                    <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '50'>
+                                @else
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                            
+                                @endif
+                                    
                             @elseif(count($exercises) <=2)
                                 
                                     <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
