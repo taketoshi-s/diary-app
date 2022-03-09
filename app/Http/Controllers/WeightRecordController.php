@@ -167,35 +167,29 @@ class WeightRecordController extends Controller
         
         $start = Auth::user()->created_at;# 開始日時 ＜ユーザー登録時＞
         $end = Carbon::today();# 終了日時
+        $last_Month_record = '';
+        $Month_sub_weight = '';    
 
         if($start->format('y-m') == $today->format('y-m')){
 
-            $month_day = $start;
+            $Month_sub_weight = $today_record->weight - $oldest_weight;
 
         }else{
 
             $month_day = $one_month_ago;
-
-        }
-
-        $last_Month_record = WeightRecord::whereDate('created_at', '>=', $month_day->startOfMonth())
+            $last_Month_record = WeightRecord::whereDate('created_at', '>=', $month_day->startOfMonth())
             ->whereDate('created_at', '<=', $month_day->endOfMonth())
             ->where('user_id', '=', $user_id)
             ->orderby('created_at', 'desc')
             ->first();
-
-            
+        }  
         
-        if(!empty($last_Month_record) && $last_Month_record->created_at->format('y-m-d') !== $today->format('y-m-d')){
-            
-            $Month_sub_weight = $today_record->weight - $last_Month_record->weight;
-            
-        }else{
+        if(!empty($last_Month_record)){
 
-            $Month_sub_weight = '';    
+            $Month_sub_weight = $today_record->weight - $oldest_weight;
+
         }
-        
-    return view('Diary.weight_result', compact('today_record', 'today', 'msg', 'result_weight', 'last_time_day', 'week_msg', 'one_week_ago', 'two_week_ago_record', 'oldest_weight', 'last_week_end_weight', 'Month_sub_weight', 'Week_sub_weight', 'last_record', 'last_Month_record'));
+    return view('Diary.weight_result', compact('today_record', 'today', 'msg', 'result_weight', 'last_time_day', 'week_msg', 'one_week_ago', 'two_week_ago_record', 'oldest_weight', 'last_week_end_weight', 'Month_sub_weight', 'Week_sub_weight', 'last_record', 'last_Month_record','start'));
     }
 
 }
