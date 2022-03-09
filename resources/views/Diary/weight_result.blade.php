@@ -50,28 +50,29 @@
                     </div>
 
                     <div class="text-center mx-sm-2 mb-1 mt-2 py-3">
-                    @if($last_record != '')
-                        <div class = 'd-flex align-items-center justify-content-center'>
-                            <p class="text-center font-weight-bold h6">今月の変動</p>
-                            <p class="text-center font-weight-bold h6 mx-1">({{$last_Month_record->created_at->format('y-m')}})</p>
-                        </div>
+                    @if(!empty($last_Month_record))
+                        @if($last_Month_record->created_at->format('y-m') != $start->format('y-m'))
+                            <div class = 'd-flex align-items-center justify-content-center'>
+                                <p class="text-center font-weight-bold h6">今月の変動</p>
+                                <p class="text-center font-weight-bold h6 mx-1">({{$last_Month_record->created_at->format('y-m')}})</p>
+                            </div>
 
-                        @if($Month_sub_weight > 0)
-                            <div class = 'd-flex align-items-center justify-content-center'>
-                                <p class="text-center font-weight-bold h4">+{{round($Month_sub_weight,1)}}</p>
-                                <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p>
+                            @if($Month_sub_weight > 0)
+                                <div class = 'd-flex align-items-center justify-content-center'>
+                                    <p class="text-center font-weight-bold h4">+{{round($Month_sub_weight,1)}}</p>
+                                    <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p>
                                 </div>
-                        @elseif($Month_sub_weight < 0)
-                            <div class = 'd-flex align-items-center justify-content-center'>
-                                <p class="text-center font-weight-bold h4">{{round($Month_sub_weight,1)}}</p>
-                                <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p> 
-                            </div>
-                        @else
-                            <div class = 'd-flex align-items-center justify-content-center'>
-                                <p class="text-center font-weight-bold h4">{{round($Month_sub_weight,1)}}</p>
-                                <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p>
-                            </div>
-                        @endif
+                            @elseif($Month_sub_weight < 0)
+                                <div class = 'd-flex align-items-center justify-content-center'>
+                                    <p class="text-center font-weight-bold h4">{{round($Month_sub_weight,1)}}</p>
+                                    <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p> 
+                                </div>
+                            @else
+                                <div class = 'd-flex align-items-center justify-content-center'>
+                                    <p class="text-center font-weight-bold h4">{{round($Month_sub_weight,1)}}</p>
+                                    <p class="text-center font-weight-bold h4 mx-2">({{$last_Month_record->weight}})</p>
+                                </div>
+                            @endif
                         
                         <!--  @if($result_weight > 0)
                             <p>画像①</p>
@@ -80,7 +81,19 @@
                         @else
                             <p>画像③</p>
                         @endif -->
+                        @endif
+                    @else
+                        @if($start->format('y-m') == $today->format('y-m'))
+                        <div class = 'd-flex align-items-center justify-content-center'>
+                            <p class="text-center font-weight-bold h6">今月の変動</p>
+                            <p class="text-center font-weight-bold h6 mx-1">({{ $start->format('y-m')}})</p>
+                        </div>
 
+                        <div class = 'd-flex align-items-center justify-content-center'>
+                                <p class="text-center font-weight-bold h4">+{{round($Month_sub_weight,1)}}</p>
+                                <p class="text-center font-weight-bold h4 mx-2">({{ $oldest_weight}})</p>
+                        </div>
+                        @endif
                     @endif
                     </div>
         
