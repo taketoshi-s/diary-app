@@ -192,7 +192,8 @@ class DiaryController extends Controller
         
             return redirect()->action("DiaryController@icon_select");
         }
-    
+        
+        //セッションの値を登録
         $user = Auth::user();
         $user->icon = $input['icon'];
         $user->save();
@@ -206,7 +207,7 @@ class DiaryController extends Controller
     //登録内容の変更画面呼び出し処理
     public function character_edit(Request $request){
 
-        //セッションの値をデータベースに保存
+        //ログインしているユーザーの情報を表示
         $character = Auth::user();
 
         return view('Diary.character_edit',compact('character'));
@@ -215,9 +216,10 @@ class DiaryController extends Controller
     //登録内容の変更処理
     public function character_update(CharacterRequest $request){
 
-        //セッションの値をデータベースに保存
+        //ログインしているユーザーの情報
         $character = Auth::user();
-
+        
+        //ログインしているユーザーの情報の登録処理
         $character->nickname = $request->nickname;
         $character->gender = $request->gender;
         $character->age = $request->age;
@@ -228,35 +230,43 @@ class DiaryController extends Controller
         return redirect()->action('DiaryController@top');
     }
     
-    //機能　未実装
+    //履歴画面表示
     public function history(Request $request)
     {   
         return view('Diary.history');
     }
-
+    
+    //体重記録の履歴画面表示
     public function weight_history(Request $request)
     {   
         $user = Auth::id();
+        
+        //ログインしているユーザーのweight_recprdsテーブルのデータを取得
         $weights = WeightRecord::where('user_id', '=', $user)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
         return view('Diary.weight_history',compact('weights'));
     }
-
+    //食事記録の履歴画面表示
     public function food_history(Request $request)
     {   
         $user = Auth::id();
+        
+        //ログインしているユーザーのFood_recprdsテーブルのデータを取得
         $foods = FoodRecord::where('user_id', '=', $user)
                 ->orderBy('created_at', 'desc')
                 ->get();
         
+        //ログインしているユーザーのweight_recprdsテーブルのデータを取得
         $weight_data = DB::table('weight_records')
                 ->where('user_id', '=', $user)
                 ->get();
-                
+        
+        //ログインしているユーザーのweight_recprdsテーブルのデータがあればtrue,なければfalseでusersテーブルの情報を取得
         if(!empty($last_weight_data)){
             
+            //基礎代謝の計算
             $bmr = 13.397 * $weight_data->weight + 4.799 * Auth::user()->height - 5.677 * Auth::user()->age + 88.362;
         
         }else{

@@ -12,7 +12,7 @@
 */
 
 //ログイン・新規登録画面
-Route::get('Diary/signup', 'DiaryController@signup');
+Route::get('/', 'DiaryController@signup');
 
 
 Route::group(['middleware' => 'auth'], function(){

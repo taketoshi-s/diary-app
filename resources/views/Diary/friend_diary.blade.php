@@ -14,7 +14,7 @@
                     </form>
                     
                     <!--友達の日記）-->
-                    <table class="table table-bordered table-striped"　style= "max-width:800px; margin-top:20px;">
+                    <table class="table table-bordered table-striped" style= "max-width:800px; margin-top:20px;">
                         <thead>
                             <tr>
                                 <th scope="col" class="text-center">日付</th>
@@ -24,6 +24,7 @@
                         </thead>
                         
                         <tbody>
+                            <!-- ログインユーザーのフレンドがいれば、そのフレンドの日記とユーザー名を表示 -->
                             @if(!empty($friends))
                                 @foreach ($diaries as $diary)
                                     @foreach ($friends as $friend)

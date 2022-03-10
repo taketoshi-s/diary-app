@@ -53,7 +53,6 @@
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('age') is-invalid @enderror" name="age" value="{{$character->age}}" required autocomplete="age">
-
                                 @error('age')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -67,7 +66,7 @@
 
                             <div class="col-md-6">
                             <input type="text" class="form-control @error('height') is-invalid @enderror" name="weight" value="{{ $character->weight}}" required autocomplete="height">
-                            @error('weight')
+                                @error('weight')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -81,7 +80,7 @@
 
                             <div class="col-md-6">
                             <input type="text" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ $character->height}}" required autocomplete="height">
-                            @error('height')
+                                @error('height')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -100,12 +99,8 @@
                     </form>
 
                     <div class="form-group row justify-content-center mt-5">
-                            
                         <a href="/Diary/top"><button class="btn btn-primary">TOPへ</button></a>
-                                
                     </div>
-
-                    
 
                 </div>
             </div>
