@@ -12,10 +12,10 @@
                             <p class="text-center font-weight-bold h4">この日の体重</p>
                             
                             @if(!empty($that_day_weight))
-                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
+                                <!--日記の日付の体重（同じ日付の体重があれば　true　なければ　else）-->
                                     <p class="text-center font-weight-bold h2">{{ $that_day_weight->weight }}</p>
                             @else
-                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
+                                <!--日記の日付の体重（同じ日付の体重があれば　true　なければ　else）-->
                                 <p class="text-center font-weight-bold h2">記録なし</p>
                             @endif
                     </div>
@@ -23,27 +23,28 @@
                     <div class="today_weight">
                             <p class="text-center font-weight-bold h6">前回との差</p>
                             @if($result_weight !== '＜ー.ーー＞' )
-                            <!--前回よりも体重が増えていれば + をつける)-->
-                            @if($result_weight > 0.01)
-                                <p class="text-center font-weight-bold h4">+ {{ $result_weight }}</p>
+                                <!--前回よりも体重が増えていれば + をつける)-->
+                                @if($result_weight > 0.01)
+                                    <p class="text-center font-weight-bold h4">+{{ $result_weight }}</p>
+                                @else
+                                    <p class="text-center font-weight-bold h4">{{ $result_weight }}</p>
+                                @endif
                             @else
                                 <p class="text-center font-weight-bold h4">{{ $result_weight }}</p>
-                            @endif
-                            @else
-                            <p class="text-center font-weight-bold h4">{{ $result_weight }}</p>
                             @endif       
                     </div>
 
                     <div class="today_weight">
                             <p class="text-center font-weight-bold h6">運動</p>
                     </div>
-
                     <table class="table table-borderless"　style= "max-width:350px; margin-top:20px;">
                         
                         <tbody>
                             <tr>
+                                <!-- 選択された運動の数に応じて表示を変える -->
                                 @if(count($exercises) <=1)
                                     <td class="text-center">
+                                    <!-- 選択された運動がなければtrue（つまり運動欄が未選択）、選択された運動があればfalse -->
                                     @if($exercises[0] == '')
                                         <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '65'>
                                     @else
@@ -147,11 +148,10 @@
 
                     <div class="today_weight">
                             <p class="text-center font-weight-bold h6">今日の出来事</p>
-                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
                             <p class="text-center font-weight-bold">{{$diary->body}}</p>
                     </div>
+                    
                     <!--日記のコメント-->
-
                     @if($comments != [])
                         @foreach($comments as $comment)
                         <div class="form-group row">
@@ -161,18 +161,21 @@
                                     <img src="{{asset($comment_user->icon)}}" alt="icon" width="50" height="50">   
                                 @endif
                             @endforeach
+
                             <p>{{$comment->body}}</p>
                             <p>{{$comment->created_at->format('n/j g:i')}}</p>
-                            @if($comment->user_id == $user->id)
-                            <form action="{{ action('DiaryRecordController@diary_comment_edit', $comment->id) }}" method="get">
-                            @csrf
-                                <button type="submit" class="btn btn-primary">編集</button>
-                            </form>
 
-                            <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
-                            @csrf
-                                <button type="submit" class="btn btn-primary">削除</button>
-                            </form>
+                            <!-- ログインユーザーのコメントならtrueで、編集、削除ボタンを表示する -->
+                            @if($comment->user_id == $user->id)
+                                <form action="{{ action('DiaryRecordController@diary_comment_edit', $comment->id) }}" method="get">
+                                @csrf
+                                    <button type="submit" class="btn btn-primary">編集</button>
+                                </form>
+
+                                <form action="{{ action('DiaryRecordController@diary_comment_destroy', $comment->id) }}" method="post">
+                                @csrf
+                                    <button type="submit" class="btn btn-primary">削除</button>
+                                </form>
                             @endif
                         </div>  
                         @endforeach

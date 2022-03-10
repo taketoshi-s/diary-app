@@ -71,7 +71,7 @@ class WeightRecordController extends Controller
         //各々の日付
         $yesterday =Carbon::today()->subDay();//1日前
         $one_week_ago =Carbon::today()->subDay(7);//7日前
-        $one_month_ago=Carbon::today()->subMonth();//当日
+        $one_month_ago=Carbon::today()->subMonth();//一月前
         
         //説明用の変数
         $week_msg = "";
@@ -80,9 +80,10 @@ class WeightRecordController extends Controller
         $last_week_end_weight="";
         $last_Month_record = "";
 
-        //登録時のid・体重
+        //登録時のid・体重・日付
         $user_id = Auth::user()->id;
         $oldest_weight = Auth::user()->weight;
+        $start = Auth::user()->created_at;# 開始日時 ＜ユーザー登録時＞
         
         //ログインしてるユーザーの体重記録を新しい順に取得
         $user_record = WeightRecord::where('user_id', '=', $user_id)->orderBy('created_at', 'desc')->get();
@@ -164,28 +165,31 @@ class WeightRecordController extends Controller
 
             $Week_sub_weight = '';               
         }
-        
-        $start = Auth::user()->created_at;# 開始日時 ＜ユーザー登録時＞
+
         $end = Carbon::today();# 終了日時
         $last_Month_record = '';
         $Month_sub_weight = '';    
 
+        //登録した年月と当日の今日の年月が一致すれば、trueでそうでなければfalseで先月のデータを取得
         if($start->format('y-m') == $today->format('y-m')){
 
+            //今日の体重から登録した月（今月）の体重を取得
             $Month_sub_weight = $today_record->weight - $oldest_weight;
 
         }else{
-
-            $month_day = $one_month_ago;
-            $last_Month_record = WeightRecord::whereDate('created_at', '>=', $month_day->startOfMonth())
-            ->whereDate('created_at', '<=', $month_day->endOfMonth())
+            
+            //今日から見て先月のデータを取得
+            $last_Month_record = WeightRecord::whereDate('created_at', '>=', $one_month_ago->startOfMonth())
+            ->whereDate('created_at', '<=', $one_month_ago->endOfMonth())
             ->where('user_id', '=', $user_id)
             ->orderby('created_at', 'desc')
             ->first();
-        }  
+        }
         
+        //先月のデータがあればtrue
         if(!empty($last_Month_record)){
-
+            
+            ////今日の体重から先月の最後の体重を引く
             $Month_sub_weight = $today_record->weight - $oldest_weight;
 
         }

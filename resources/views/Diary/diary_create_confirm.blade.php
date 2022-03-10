@@ -18,6 +18,7 @@
                     <table class="table table-borderless"　style= "max-width:350px; margin-top:20px;">
                         <tbody>
                             <tr>
+                                <!-- 選択された運動の数に応じて表示を変える -->
                                 @if(count($exercises) <=1)
                                 <td class="text-center">
                                     @if($exercises[0] == '')
@@ -73,6 +74,7 @@
                         </thead>
 
 						<tbody>
+                            <!-- 選択されたそれぞれの項目に応じて表示を変える -->
                             <tr>
                                 <td class="text-center">
                                     @if($input['condition'] ==1)
@@ -119,15 +121,12 @@
 
 					<div class="today_weight">
                             <p class="text-center font-weight-bold h6">今日の出来事</p>
-                                <!--日記の日付の体重 (同じ日付の体重があれば　true　なければ　else)-->
                             <p class="text-center font-weight-bold">{{$input["body"]}}</p>
                     </div>
                     
                     <div class="form-group row justify-content-center mt-5">
                         <input name="back" type="submit" value="戻る" class="btn btn-primary mx-2"/>
-
                         <input type="submit" value="送信" class="btn btn-primary mx-2" />
-                        
                     </div>
 
                     </form>

@@ -26,7 +26,7 @@ class WeightRecordRequest extends FormRequest
     {
         return [
 
-            'weight' => ['required','numeric','regex:/^[1-9][0-9]{0,2}(\.[0-9]{1,2})?$/','between:30,150'],
+            'weight' => ['required','numeric','regex:/^[1-9][0-9]{0,2}(\.[0-9]{0,1})?$/','between:30,150'],
         
         ];
     }

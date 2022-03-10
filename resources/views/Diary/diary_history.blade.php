@@ -28,6 +28,7 @@
                     
                     
                         <tbody>
+                            <!--取得したログインしているユーザーの全日記-->
                             @foreach ($diaries as $diary)
                             <tr>
                                 <!--日記の日付-->
@@ -35,37 +36,38 @@
                                 <td class="text-center align-middle
                                 ">{{$diary->created_at->format('m/d')}}</td>
                                 
-                                <!--調子-->
+                                <!-- 選択された運動の数に応じて表示を変える -->
                                 @if(count($exercises) <=1)
-                                <td class="text-center align-middle">
-                                    @if($exercises[0] == '')
-                                        <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '50'>
-                                    @else
-                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
-                                    @endif
-                                </td>
+                                    <td class="text-center align-middle">
+                                        <!-- 選択された運動がなければtrue（つまり運動欄が未選択）、選択された運動があればfalse -->
+                                        @if($exercises[0] == '')
+                                            <img src="{{asset('image/sleep_man.png')}}" alt="休む" width ='65' height = '50'>
+                                        @else
+                                            <img src="{{asset($exercises[0])}}" alt="走る" width ='65' height = '65'>
+                                        @endif
+                                    </td>
                                 @elseif(count($exercises) <=2)
-                                <td class="text-center align-middle"><img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
-                                </td>
+                                    <td class="text-center align-middle"><img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
+                                    </td>
                                 @elseif(count($exercises) <=3)
-                                <td class="text-center align-middle">
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
-                                    <br>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='45' height = '45'>
+                                    <td class="text-center align-middle">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
+                                        <br>
+                                        <img src="{{asset($exercises[2])}}" alt="走る" width ='45' height = '45'>
                                 </td>
                                 @elseif(count($exercises) <=4)
-                                <td class="text-center align-middle">
-                                    <img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
-                                    <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
-                                    <br>
-                                    <img src="{{asset($exercises[2])}}" alt="走る" width ='45' height = '45'>
-                                    <img src="{{asset($exercises[3])}}" alt="走る" width ='45' height = '45'>
-                                </td>
+                                    <td class="text-center align-middle">
+                                        <img src="{{asset($exercises[0])}}" alt="走る" width ='45' height = '45'>
+                                        <img src="{{asset($exercises[1])}}" alt="走る" width ='45' height = '45'>
+                                        <br>
+                                        <img src="{{asset($exercises[2])}}" alt="走る" width ='45' height = '45'>
+                                        <img src="{{asset($exercises[3])}}" alt="走る" width ='45' height = '45'>
+                                    </td>
                                 @endif
 
-
+                                <!--調子-->
                                 @if($diary->condition == 1)
                                 <td class="text-center align-middle"><img src="{{asset('image/zetuhutyou.png')}}" alt="走る" width ='30' height = '30'></td>
                                 @elseif($diary->condition == 2)

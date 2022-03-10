@@ -19,17 +19,16 @@
                         </thead>
                         
                         <tbody>
+                        <!-- ログインユーザーの体重記録があれば表示 -->
                         @if(!empty($weights))
                             @foreach ($weights as $key => $value)
                                         <tr>
-                                            <!--日記の日付-->
                                             <td class="text-center">{{$value->created_at->format('m月d日')}}</td>
-                                            <!--日記の作者-->
                                             <td class="text-center">
                                                 <P>{{$value->weight}}</P>
                                             </td>
-                                            <!--日記を見る-->
                                             <td class="text-center">
+                                            <!-- 当日の体重記録と前日の体重記録を比較-->
                                             @if(!empty($weights[$key+1]))
                                                 @if($weights[$key]->weight - $weights[$key+1]->weight > 0)
                                                     <P style = "color:#005FFF">+{{number_format($weights[$key]->weight - $weights[$key+1]->weight,1)}}</P>

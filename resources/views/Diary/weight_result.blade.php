@@ -51,7 +51,7 @@
 
                     <div class="text-center mx-sm-2 mb-1 mt-2 py-3">
                     @if(!empty($last_Month_record))
-                        @if($last_Month_record->created_at->format('y-m') != $start->format('y-m'))
+                        @if($last_Month_record->created_at->format('y-m') < $today->format('y-m'))
                             <div class = 'd-flex align-items-center justify-content-center'>
                                 <p class="text-center font-weight-bold h6">今月の変動</p>
                                 <p class="text-center font-weight-bold h6 mx-1">({{$last_Month_record->created_at->format('y-m')}})</p>
@@ -90,7 +90,11 @@
                         </div>
 
                         <div class = 'd-flex align-items-center justify-content-center'>
+                            @if($Month_sub_weight > 0)
                                 <p class="text-center font-weight-bold h4">+{{round($Month_sub_weight,1)}}</p>
+                            @else
+                                <p class="text-center font-weight-bold h4">{{round($Month_sub_weight,1)}}</p>
+                            @endif
                                 <p class="text-center font-weight-bold h4 mx-2">({{ $oldest_weight}})</p>
                         </div>
                         @endif

@@ -18,13 +18,13 @@
                         </thead>
                         
                         <tbody>
+                        <!-- ログインユーザーの食事記録があれば表示 -->
                         @if(!empty($foods))
                             @foreach ($foods as $food)
                                         <tr>
-                                            <!--日記の日付-->
                                             <td class="text-center">{{ $food->created_at->format('m月d日')}}</td>
-                                            <!--日記の作者-->
                                             <td class="text-center">
+                                                <!-- その日の記録が0以上なら一日の合計を表示し、０なら--.-を表示 -->
                                                 @if($food->morning + $food->lunch + $food->dinner + $food->otherfood > 0)
                                                     <P>{{$food->morning + $food->lunch + $food->dinner + $food->otherfood}}</P>
                                                 @else

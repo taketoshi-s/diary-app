@@ -392,9 +392,10 @@ class DiaryRecordController extends Controller
         //検索されたユーザー
         $search_user = User::where('name', $request->input)->first();
 
-        //ログインユーザーのフレンド
+        //ログインユーザーのフレンドと検索されたユーザーが一致すれば取得
         $friend_user = Frends::where('user_id', '=', $user->id)->where('friend_id', '=', $search_user->id)->first();
         
+        //ログインユーザーのフレンドと検索されたユーザーが一致すればtrue、しなければfalseで上書き
         if(empty($friend_user)){
             
             $friend = new frends;
