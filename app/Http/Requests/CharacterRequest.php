@@ -27,7 +27,7 @@ class CharacterRequest extends FormRequest
 
             'nickname' => 'required|string|max:10',
             'age'=> 'required|integer|regex:/^[0-9]+$/i|between:10,100|', 
-            'weight' => ['required','numeric','regex:/^[1-9][0-9]{0,2}(\.[0-9]{1,2})?$/','between:30,150'],
+            'weight' => ['required','numeric','between:30,150','regex:/^[1-9][0-9]{0,3}(\.[0-9]{0,1})?$/'],
             'height' => 'required|integer|regex:/^[0-9]+$/i|between:110,220|',
             'gender' => 'required|integer',
         ];
@@ -46,8 +46,8 @@ class CharacterRequest extends FormRequest
             'age.between' => '年齢は10歳〜100歳で入力してください。',
             'weight.required' => '体重を入力してください。',
             'weight.numeric' => '体重は半角数字で入力してください。',
-            'weight.regex' => '体重は小数点第一位の数まで入力可能です。',
             'weight.between' => '体重は30〜150の間で入力してください。',
+            'weight.regex' => '体重は小数点第一位の数まで入力可能です。',
             'height.required' => '身長を入力してください。',
             'height.integer' => '身長は整数で入力してください。',
             'height.regex' => '身長は半角数字で入力してください。',
