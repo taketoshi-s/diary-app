@@ -45,6 +45,14 @@ class DiaryController extends Controller
     //アプリトップ画面
     public function top()
     {   
+        $user_information = User::where('id', '=',Auth::user()->id)
+                            ->first();
+                            
+        if(empty($user_information->nickname)){
+
+            return redirect()->action("DiaryController@character_create");
+        
+        }
         return view('Diary.top');
     }
     
