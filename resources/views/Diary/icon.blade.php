@@ -8,6 +8,26 @@
                 <div class="card-header">アイコン画像登録</div>
 
                 <div class="card-body">
+                    <!-- モーダルウィンドウを起動するボタン -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#MODAL1">登録方法③</button><br>
+                    <!-- ここからモーダル -->
+                    <div class="modal fade" id="MODAL1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <p>登録方法</p>
+                                </div>
+                                
+                                
+                                <div class="modal-body">
+                                    <p>[アイコン画像]</p>
+                                    <p>・アイコン画像を選択してください。</div>
+
+                            </div> <!-- modal-content -->
+                        </div>  <!-- modal-dialog -->
+                    </div>  <!-- modal fade -->
+
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}

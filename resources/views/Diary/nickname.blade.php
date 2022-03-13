@@ -8,6 +8,49 @@
                 <div class="card-header">{{ __('会員登録') }}</div>
 
                 <div class="card-body">
+                    <!-- モーダルウィンドウを起動するボタン -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#MODAL1">登録方法②</button><br>
+                    <!-- ここからモーダル -->
+                    <div class="modal fade" id="MODAL1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <p>登録方法</p>
+                                </div>
+                                
+                                
+                                <div class="modal-body">
+                                    <p>[ニックネーム]</p>
+                                    <p>・10文字以内で入力してください。<br>
+                                        ・全角もしくは半角文字で入力してください。
+                                    </p>
+                                    <p>[年齢]</p>
+                                    <p>・半角数字で入力してください。<br>
+                                        ・整数で入力してください。<br>
+                                        ・10歳〜100歳で入力してください<br>
+                                    </p>
+                                    
+                                    <p>[性別]</p>
+                                    <p>・該当する項目を選択してください。</p>
+                                    
+                                    <p>[体重]</p>
+                                    <p>・半角数字で入力してください。<br>
+                                        ・小数点第一位の数まで入力可能です。<br>
+                                        ・30〜150の間で入力してください。<br>
+                                    </p>
+
+                                    <p>[身長]</p>
+                                    <p>・半角数字で入力してください。<br>
+                                        ・整数で入力してください。<br>
+                                        ・110〜220の間で入力してください。<br>
+                                    </p>
+                                </div>
+
+                            </div> <!-- modal-content -->
+                        </div>  <!-- modal-dialog -->
+                    </div>  <!-- modal fade -->
+
                 <form method = "post" action = "{{route('Diary.character_store')}}">    
                     @csrf
                         <div class="form-group text-right row">
