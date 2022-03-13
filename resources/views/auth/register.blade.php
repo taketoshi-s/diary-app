@@ -8,6 +8,32 @@
                 <div class="card-header">{{ __('会員登録') }}</div>
 
                 <div class="card-body">
+                    <!-- モーダルウィンドウを起動するボタン -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#MODAL1">登録方法①</button><br>
+
+                    <!-- ここからモーダル -->
+                    <div class="modal fade" id="MODAL1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <p>登録方法</p>
+                                </div>
+                                
+                                <div class="modal-body">
+                                <p>[名前]</p>
+                                <p>10文字以内で入力してください</p>
+                                
+                                <p>[メールアドレス]</p>
+                                <p>メールアドレスは255文字以内で入力してください。</p>
+
+                                <p>[パスワード]</p>
+                                <p>パスワードは4文字以上で入力してください。</p>
+                                </div>
+
+                            </div> <!-- modal-content -->
+                        </div>  <!-- modal-dialog -->
+                    </div>  <!-- modal fade -->
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 

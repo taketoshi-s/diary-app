@@ -29,7 +29,7 @@
                 
                     <div class="text-center"> 
                             <p class="text-center h6 mx-5">性別</p>
-                    
+                            
                             @if($input["gender"] == 1)
                                 <p class="text-center font-weight-bold h4 mx-5 my-3"> 女性</p>
                             @else

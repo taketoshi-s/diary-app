@@ -8,6 +8,30 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    <!-- モーダルウィンドウを起動するボタン -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#MODAL1">ログイン方法</button><br>
+                    <!-- ここからモーダル -->
+                    <div class="modal fade" id="MODAL1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <p>利用方法</p>
+                                </div>
+                                
+                                <div class="modal-body">
+                                    <p>[メールアドレス]</p>
+                                    <p>test@test.com</p>
+
+                                    <p>[パスワード]</p>
+                                    <p>1111</p>
+
+                                    <p>上記のアカウント情報を入力していただければすぐにご確認できます</p>
+                                </div>
+
+                            </div> <!-- modal-content -->
+                        </div>  <!-- modal-dialog -->
+                    </div>  <!-- modal fade -->
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
