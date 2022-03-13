@@ -112,6 +112,11 @@ class DiaryRecordController extends Controller
         //今日のデータがあれば上書き、なければ新規に記録
         if(!empty($today_diaryrecord)){
 
+            if(empty($input)){
+
+                return redirect()->action("DiaryRecordController@diary_record");
+            }
+
             $diary = Diary::find($today_diaryrecord->id);
             $diary->exercise = $input['exercise'];
             $diary->condition = $input['condition'];
@@ -125,6 +130,12 @@ class DiaryRecordController extends Controller
         }else{
         
             //セッションの値をデータベースに保存
+
+            if(empty($input)){
+
+                return redirect()->action("DiaryRecordController@diary_record");
+            }
+            
             $diary =new Diary;
             $diary->exercise = $input['exercise'];
             $diary->condition = $input['condition'];
@@ -148,40 +159,40 @@ class DiaryRecordController extends Controller
         $diary = Diary::find($id);
          //ログインしているユーザーを取得
 
-        if(!empty($diary)) {
+        if(empty($diary)) {
 
-            $user = Auth::user();
-        
-            //コメントを全て取得
-            $comments  = Comments::where('diary_id', '=', $diary->id)->get();
-            //コメントのユーザー情報全てを取得
-            $comment_users = DB::table('users')->get();
-    
-            $exercises = explode(",", $diary->exercise);
-            
-            //選択した日記と同じ日付の<体重>を<WeightRecord>テーブルから取得
-            $that_day_weight = WeightRecord::whereDate('created_at', $diary->created_at->format('y-m-d'))->where('user_id', $diary->user_id)->first();
-            
-            //選択した日記の日付より前で一番新しい日付の<体重>を<WeightRecord>テーブルから取得
-            $last_day_weight = WeightRecord::whereDate('created_at', '<', $diary->created_at->format('y-m-d'))
-                                    ->where('user_id', $diary->user_id)
-                                    ->orderBy('created_at', 'desc')
-                                    ->first();
-    
-            //上記のデータがあれば体重差を出し、なければ<-.-->を変数に代入　
-            if(!empty($last_day_weight) && !empty($that_day_weight)){
-                
-                //計算結果　＝　日記の日付の体重　ー　日記の日付のひとつ前の体重
-                $result_weight = $that_day_weight->weight - $last_day_weight->weight;
-            }else{
-                
-                $result_weight = '＜ー.ーー＞';
-            }
-                
-            return view('Diary.diary_show', compact('diary', 'that_day_weight', 'result_weight', 'last_day_weight', 'exercises', 'comments', 'comment_users', 'user'));
+            return redirect()->action('DiaryRecordController@diary_history');
         }
 
-        return redirect()->action('DiaryRecordController@diary_history');
+        $user = Auth::user();
+        
+        //コメントを全て取得
+        $comments  = Comments::where('diary_id', '=', $diary->id)->get();
+        //コメントのユーザー情報全てを取得
+        $comment_users = DB::table('users')->get();
+
+        $exercises = explode(",", $diary->exercise);
+        
+        //選択した日記と同じ日付の<体重>を<WeightRecord>テーブルから取得
+        $that_day_weight = WeightRecord::whereDate('created_at', $diary->created_at->format('y-m-d'))->where('user_id', $diary->user_id)->first();
+        
+        //選択した日記の日付より前で一番新しい日付の<体重>を<WeightRecord>テーブルから取得
+        $last_day_weight = WeightRecord::whereDate('created_at', '<', $diary->created_at->format('y-m-d'))
+                                ->where('user_id', $diary->user_id)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+
+        //上記のデータがあれば体重差を出し、なければ<-.-->を変数に代入　
+        if(!empty($last_day_weight) && !empty($that_day_weight)){
+            
+            //計算結果　＝　日記の日付の体重　ー　日記の日付のひとつ前の体重
+            $result_weight = $that_day_weight->weight - $last_day_weight->weight;
+        }else{
+            
+            $result_weight = '＜ー.ーー＞';
+        }
+            
+        return view('Diary.diary_show', compact('diary', 'that_day_weight', 'result_weight', 'last_day_weight', 'exercises', 'comments', 'comment_users', 'user'));
     }
     
     //日記編集画面の呼び出し
@@ -190,13 +201,13 @@ class DiaryRecordController extends Controller
         //選択した日記を取得
         $diary = Diary::find($id);
 
-        if(!empty($diary)) {
+        if(empty($diary)){
         
-            return view('Diary.diary_edit')->with('diary', $diary);
+            return redirect()->action('DiaryRecordController@diary_history');
             
         }
 
-        return redirect()->action('DiaryRecordController@diary_history');
+        return view('Diary.diary_edit',compact('diary'));
     }
 
     //日記編集の処理
@@ -204,6 +215,12 @@ class DiaryRecordController extends Controller
     {
         //選択した日記を取得
         $diary = Diary::find($id);
+
+        if(empty($diary)){
+            
+            return redirect()->action('DiaryRecordController@diary_history');
+
+        }
         
         if ($request->has('exercise')) {
 
